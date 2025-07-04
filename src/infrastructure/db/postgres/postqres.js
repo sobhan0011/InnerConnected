@@ -9,24 +9,23 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 class Postgres {
-	constructor({ postgresConfig }) {
-		console.log(postgresConfig);
+	constructor({ logger, postgresConfig }) {
 		this.config = postgresConfig;
-		this.pool = null;
 		this.pool = new Pool(this.config);
 	}
 
-	async initialize() {
+	async init() {
 		await this.checkConnectivity();
 		await this.createShema();
+		return this;
 	}
 
 	async checkConnectivity() {
 		try {
 			await this.pool.query('SELECT 1');
-			console.log('✅ Connected to PostgreSQL database');
+			logger.log('✅ Connected to PostgreSQL database');
 		} catch (error) {
-			console.error('❌ Failed to connect to PostgreSQL:', error.message);
+			logger.error('❌ Failed to connect to PostgreSQL:', error.message);
 			throw error;
 		}
 	}
@@ -40,11 +39,11 @@ class Postgres {
 			for (const file of files) {
 				const sql = fs.readFileSync(path.join(schemaDir, file), 'utf-8');
 				await this.pool.query(sql);
-				console.log(`✅ Initializaed: ${file}`);
+				logger.log(`✅ Initializaed: ${file}`);
 			}
-			console.log('✅ Connected to PostgreSQL database');
+			logger.log('✅ Connected to PostgreSQL database');
 		} catch (error) {
-			console.error('❌ Failed to connect to PostgreSQL:', error.message);
+			logger.error('❌ Failed to connect to PostgreSQL:', error.message);
 			throw error;
 		}
 	}
