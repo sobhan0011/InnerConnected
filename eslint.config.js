@@ -22,7 +22,7 @@ export default [
 			'block-spacing': ['error'],
 			'object-curly-spacing': ['error', 'always'],
 			'one-var': ['error', 'never'],
-			'no-console': ['warn'],
+			//'no-console': ['warn'],
 			'keyword-spacing': ['error', { before: true, after: true }],
 			'comma-spacing': ['error', { before: false, after: true }],
 			'space-infix-ops': 'error',
