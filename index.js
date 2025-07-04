@@ -2,9 +2,6 @@ import App from './app.js';
 import container from './di.js';
 
 const start = async () => {
-	const db = container.resolve('db');
-	await db.initialize();
-
 	const app = new App();
 	app.setup(container);
 	app.run();
