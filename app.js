@@ -1,8 +1,8 @@
 import express from 'express';
 import { scopePerRequest } from 'awilix-express';
-import setupRoutes from './routes/index.js';
+import setupRoutes from './interfaces/http/routes.js';
 import config from './configs/serverConfig.js';
-import errorHandler from './middlewares/errorHandler.js';
+import errorHandler from './interfaces/http/common/middlewares/errorHandler.js';
 
 class App {
 	constructor() {
