@@ -1,0 +1,14 @@
+docker-compose up --build
+
+docker run --name pgadmin \
+  -e PGADMIN_DEFAULT_EMAIL=admin@admin.com \
+  -e PGADMIN_DEFAULT_PASSWORD=admin \
+  -p 5050:80 \
+  -d dpage/pgadmin4
+
+admin@admin.com
+admin
+
+npx node-pg-migrate create init-schema -m src/infrastructure/db/postgres/migrations
+DATABASE_URL=postgres://username:password@localhost:5432/yourdb
+npx node-pg-migrate up -m src/infrastructure/db/postgres/migrations
