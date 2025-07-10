@@ -1,15 +1,12 @@
 import Joi from 'joi';
 
 export const createCommentSchema = Joi.object({
-	name: Joi.string().min(1).max(255).required(),
-	email: Joi.string().email().required(),
-});
-
-export const updateCommentSchema = Joi.object({
-	name: Joi.string().min(1).max(255).optional(),
-	email: Joi.string().email().optional(),
+	content: Joi.string().min(3).required(),
+	createdDate: Joi.date().optional(),
+	postId: Joi.string().uuid({ version: 'uuidv4' }).required(),
+	userId: Joi.string().uuid({ version: 'uuidv4' }).required(),
 });
 
 export const commentIdParamSchema = Joi.object({
-	id: Joi.number().integer().min(1).required(),
+	id: Joi.string().uuid({ version: 'uuidv4' }).required(),
 });

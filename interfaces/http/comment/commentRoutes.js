@@ -1,6 +1,6 @@
 import express from 'express';
 import { makeInvoker } from 'awilix-express';
-import { createCommentSchema, updateCommentSchema, commentIdParamSchema } from './commentValidators.js';
+import { createCommentSchema, commentIdParamSchema } from './commentValidators.js';
 import { validate } from '../common/middlewares/validator.js';
 
 function commentsRouter() {
@@ -17,7 +17,7 @@ function commentsRouter() {
 	router.put(
 		'/comments/:id',
 		validate(commentIdParamSchema, 'params'),
-		validate(updateCommentSchema, 'body'),
+		validate(createCommentSchema, 'body'),
 		api('updateComment'),
 	);
 
