@@ -1,11 +1,11 @@
-class UpdateComments {
+class UpdateComment {
 	constructor(commentRepository) {
 		this.commentRepository = commentRepository;
 	}
 
 	execute() {
-		console.log('UpdateComments');
+		return 'UpdateComment';
 	}
 }
 
-export default UpdateComments;
+export default UpdateComment;

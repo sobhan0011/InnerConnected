@@ -4,7 +4,7 @@ class GetComments {
 	}
 
 	execute() {
-		this.commentRepository.getAllComments();
+		return 'GetComments';
 	}
 }
 

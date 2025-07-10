@@ -4,7 +4,7 @@ class GetCommentById {
 	}
 
 	execute() {
-		console.log('GetCommentById');
+		return 'GetCommentById';
 	}
 }
 

@@ -4,7 +4,7 @@ class DeleteComment {
 	}
 
 	execute() {
-		console.log('DeleteComment');
+		return 'DeleteComment';
 	}
 }
 

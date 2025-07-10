@@ -4,7 +4,7 @@ class AddComment {
 	}
 
 	execute() {
-		console.log('AddComment');
+		return 'AddComment';
 	}
 }
 
