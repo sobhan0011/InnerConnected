@@ -4,7 +4,7 @@ class GetUsers {
 	}
 
 	execute() {
-		this.userRepository.getAllUsers();
+		return 'GetUsers';
 	}
 }
 

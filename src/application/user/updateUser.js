@@ -1,11 +1,11 @@
-class UpdateUsers {
+class UpdateUser {
 	constructor(userRepository) {
 		this.userRepository = userRepository;
 	}
 
 	execute() {
-		console.log('UpdateUsers');
+		return 'UpdateUser';
 	}
 }
 
-export default UpdateUsers;
+export default UpdateUser;

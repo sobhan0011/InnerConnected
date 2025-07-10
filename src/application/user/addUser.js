@@ -4,7 +4,7 @@ class AddUser {
 	}
 
 	execute() {
-		console.log('AddUser');
+		return 'AddUser';
 	}
 }
 

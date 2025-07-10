@@ -4,7 +4,7 @@ class DeleteUser {
 	}
 
 	execute() {
-		console.log('DeleteUser');
+		return 'DeleteUser';
 	}
 }
 

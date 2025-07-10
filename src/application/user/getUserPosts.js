@@ -1,11 +1,11 @@
-class GetUserById {
+class GetUserPosts {
 	constructor(userRepository) {
 		this.userRepository = userRepository;
 	}
 
 	execute() {
-		return 'GetUserById';
+		return 'GetUserPosts';
 	}
 }
 
-export default GetUserById;
+export default GetUserPosts;

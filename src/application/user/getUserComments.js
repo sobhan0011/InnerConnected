@@ -1,11 +1,11 @@
-class GetUserById {
+class GetUserComments {
 	constructor(userRepository) {
 		this.userRepository = userRepository;
 	}
 
 	execute() {
-		return 'GetUserById';
+		return 'GetUserComments';
 	}
 }
 
-export default GetUserById;
+export default GetUserComments;
