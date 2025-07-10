@@ -1,15 +1,13 @@
 import Joi from 'joi';
 
 export const createPostSchema = Joi.object({
-	name: Joi.string().min(1).max(255).required(),
-	email: Joi.string().email().required(),
-});
-
-export const updatePostSchema = Joi.object({
-	name: Joi.string().min(1).max(255).optional(),
-	email: Joi.string().email().optional(),
+	title: Joi.string().min(3).max(255).required(),
+	content: Joi.string().min(10).required(),
+	createdDate: Joi.date().optional(),
+	approved: Joi.boolean().optional(),
+	userId: Joi.string().uuid({ version: 'uuidv4' }).required(),
 });
 
 export const postIdParamSchema = Joi.object({
-	id: Joi.number().integer().min(1).required(),
+	id: Joi.string().uuid({ version: 'uuidv4' }).required(),
 });

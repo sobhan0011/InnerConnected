@@ -27,6 +27,11 @@ class PostController {
 		const result = await this.postUsecaseRegistry.updatePost.execute(req.params.id, req.body);
 		res.json(result);
 	};
+
+	getPostComments = async (req, res) => {
+		const result = await this.postUsecaseRegistry.getPostComments.execute(req.params.id);
+		res.json(result);
+	};
 }
 
 export default PostController;

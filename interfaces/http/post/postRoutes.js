@@ -1,6 +1,6 @@
 import express from 'express';
 import { makeInvoker } from 'awilix-express';
-import { createPostSchema, updatePostSchema, postIdParamSchema } from './postValidators.js';
+import { createPostSchema, postIdParamSchema } from './postValidators.js';
 import { validate } from '../common/middlewares/validator.js';
 
 function postsRouter() {
@@ -12,9 +12,10 @@ function postsRouter() {
 
 	router.get('/posts/', api('getPosts'));
 	router.get('/posts/:id', validate(postIdParamSchema, 'params'), api('getPostById'));
+	router.get('/posts/:id/comments', validate(postIdParamSchema, 'params'), api('getPostComments'));
 	router.post('/posts/', validate(createPostSchema, 'body'), api('addPost'));
 	router.delete('/posts/:id', validate(postIdParamSchema, 'params'), api('deletePost'));
-	router.put('/posts/:id', validate(postIdParamSchema, 'params'), validate(updatePostSchema, 'body'), api('updatePost'));
+	router.put('/posts/:id', validate(postIdParamSchema, 'params'), validate(createPostSchema, 'body'), api('updatePost'));
 
 	return router;
 }
