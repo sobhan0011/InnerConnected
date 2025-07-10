@@ -27,6 +27,16 @@ class UserController {
 		const result = await this.userUsecaseRegistry.updateUser.execute(req.params.id, req.body);
 		res.json(result);
 	};
+
+	getUserComments = async (req, res) => {
+		const result = await this.userUsecaseRegistry.getUserComments.execute(req.params.id);
+		res.json(result);
+	};
+
+	getUserPosts = async (req, res) => {
+		const result = await this.userUsecaseRegistry.getUserPosts.execute(req.params.id);
+		res.json(result);
+	};
 }
 
 export default UserController;

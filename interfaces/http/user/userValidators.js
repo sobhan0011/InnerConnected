@@ -31,5 +31,5 @@ export const createUserSchema = Joi.object({
 });
 
 export const userIdParamSchema = Joi.object({
-	id: Joi.number().integer().min(1).required(),
+	id: Joi.string().uuid({ version: 'uuidv4' }).required(),
 });

@@ -15,6 +15,8 @@ function usersRouter() {
 	router.post('/users/', validate(createUserSchema, 'body'), api('addUser'));
 	router.delete('/users/:id', validate(userIdParamSchema, 'params'), api('deleteUser'));
 	router.put('/users/:id', validate(userIdParamSchema, 'params'), validate(createUserSchema, 'body'), api('updateUser'));
+	router.get('/users/:id/comments', validate(userIdParamSchema, 'params'), api('getUserComments'));
+	router.get('/users/:id/posts', validate(userIdParamSchema, 'params'), api('getUserPosts'));
 
 	return router;
 }
