@@ -4,7 +4,7 @@ class GetPostById {
 	}
 
 	execute() {
-		console.log('GetPostById');
+		return 'GetPostById';
 	}
 }
 

@@ -4,7 +4,7 @@ class GetPosts {
 	}
 
 	execute() {
-		this.postRepository.getAllPosts();
+		return 'GetPosts';
 	}
 }
 

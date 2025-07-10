@@ -1,11 +1,11 @@
-class GetPostById {
+class GetPostComments {
 	constructor(postRepository) {
 		this.postRepository = postRepository;
 	}
 
 	execute() {
-		console.log('GetPostById');
+		return 'GetPostComments';
 	}
 }
 
-export default GetPostById;
+export default GetPostComments;

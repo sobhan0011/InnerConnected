@@ -4,7 +4,7 @@ class AddPost {
 	}
 
 	execute() {
-		console.log('AddPost');
+		return 'AddPost';
 	}
 }
 

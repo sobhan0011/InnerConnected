@@ -4,7 +4,7 @@ class DeletePost {
 	}
 
 	execute() {
-		console.log('DeletePost');
+		return 'DeletePost';
 	}
 }
 

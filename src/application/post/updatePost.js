@@ -1,11 +1,11 @@
-class UpdatePosts {
+class UpdatePost {
 	constructor(postRepository) {
 		this.postRepository = postRepository;
 	}
 
 	execute() {
-		console.log('UpdatePosts');
+		return 'UpdatePost';
 	}
 }
 
-export default UpdatePosts;
+export default UpdatePost;
