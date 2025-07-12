@@ -3,8 +3,9 @@ class DeletePost {
 		this.postRepository = postRepository;
 	}
 
-	execute() {
-		return 'DeletePost';
+	async execute(postId) {
+		await this.postRepository.deletePost(postId);
+		return { message: 'Success' };
 	}
 }
 
