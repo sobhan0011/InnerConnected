@@ -5,12 +5,6 @@ export const ERROR_CODES = {
 		en_message: 'User not found',
 		status: 404,
 	},
-	EMAIL_ALREADY_EXISTS: {
-		code: 'EMAIL_ALREADY_EXISTS',
-		fa_message: 'این ایمیل قبلاً ثبت شده است',
-		en_message: 'Email already exists',
-		status: 409,
-	},
 	VALIDATION_FAILED: {
 		code: 'VALIDATION_FAILED',
 		fa_message: 'اعتبارسنجی ناموفق بود',
@@ -22,5 +16,29 @@ export const ERROR_CODES = {
 		fa_message: 'خطای داخلی سرور',
 		en_message: 'Internal server error',
 		status: 500,
+	},
+	EMAIL_ALREADY_EXISTS: {
+		code: 'EMAIL_ALREADY_EXISTS',
+		fa_message: 'این ایمیل قبلاً ثبت شده است',
+		en_message: 'Email already exists',
+		status: 409,
+	},
+	USERNAME_ALREADY_EXISTS: {
+		code: 'USERNAME_ALREADY_EXISTS',
+		fa_message: 'این نام کاربری قبلاً ثبت شده است',
+		en_message: 'Username already exists',
+		status: 409,
+	},
+	POST_NOT_FOUND: {
+		code: 'POST_NOT_FOUND',
+		fa_message: 'پست پیدا نشد',
+		en_message: 'Post not found',
+		status: 404,
+	},
+	COMMENT_NOT_FOUND: {
+		code: 'COMMENT_NOT_FOUND',
+		fa_message: 'کامنت پیدا نشد',
+		en_message: 'Comment not found',
+		status: 404,
 	},
 };
