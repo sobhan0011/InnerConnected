@@ -5,8 +5,8 @@ import DeleteComment from './deleteComment.js';
 import UpdateComment from './updateComment.js';
 
 class CommentUsecaseRegistry {
-	constructor({ commentRepository }) {
-		this.addComment = new AddComment(commentRepository);
+	constructor({ commentRepository, userRepository, postRepository }) {
+		this.addComment = new AddComment(commentRepository, userRepository, postRepository);
 		this.deleteComment = new DeleteComment(commentRepository);
 		this.getComments = new GetComments(commentRepository);
 		this.getCommentById = new GetCommentById(commentRepository);

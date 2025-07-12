@@ -3,8 +3,9 @@ class DeleteComment {
 		this.commentRepository = commentRepository;
 	}
 
-	execute() {
-		return 'DeleteComment';
+	async execute(commentId) {
+		await this.commentRepository.deleteComment(commentId);
+		return { message: 'Success' };
 	}
 }
 
