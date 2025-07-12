@@ -9,27 +9,27 @@ class PostController {
 	};
 
 	getPostById = async (req, res) => {
-		const post = await this.postUsecaseRegistry.getPostById.execute(req.params.id);
+		const postId = req.params.id;
+		const post = await this.postUsecaseRegistry.getPostById.execute(postId);
 		res.json(post);
 	};
 
 	addPost = async (req, res) => {
-		const post = await this.postUsecaseRegistry.addPost.execute(req.body);
+		const postData = req.body;
+		const post = await this.postUsecaseRegistry.addPost.execute(postData);
 		res.json(post);
 	};
 
 	deletePost = async (req, res) => {
-		const result = await this.postUsecaseRegistry.deletePost.execute(req.params.id);
+		const postId = req.params.id;
+		const result = await this.postUsecaseRegistry.deletePost.execute(postId);
 		res.json(result);
 	};
 
 	updatePost = async (req, res) => {
-		const result = await this.postUsecaseRegistry.updatePost.execute(req.params.id, req.body);
-		res.json(result);
-	};
-
-	getPostComments = async (req, res) => {
-		const result = await this.postUsecaseRegistry.getPostComments.execute(req.params.id);
+		const postId = req.params.id;
+		const postData = req.body;
+		const result = await this.postUsecaseRegistry.updatePost.execute(postId, postData);
 		res.json(result);
 	};
 }

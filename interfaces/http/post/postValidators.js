@@ -8,6 +8,11 @@ export const createPostSchema = Joi.object({
 	userId: Joi.string().uuid({ version: 'uuidv4' }).required(),
 });
 
+export const updatePostSchema = Joi.object({
+	title: Joi.string().min(3).max(255).required(),
+	content: Joi.string().min(10).required(),
+});
+
 export const postIdParamSchema = Joi.object({
 	id: Joi.string().uuid({ version: 'uuidv4' }).required(),
 });
