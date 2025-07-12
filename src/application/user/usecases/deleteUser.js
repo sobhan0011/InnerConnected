@@ -3,8 +3,9 @@ class DeleteUser {
 		this.userRepository = userRepository;
 	}
 
-	execute() {
-		return 'DeleteUser';
+	async execute(userId) {
+		await this.userRepository.deleteUser(userId);
+		return { message: 'Success' };
 	}
 }
 
