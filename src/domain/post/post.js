@@ -1,5 +1,4 @@
 import { v4 as uuidv4 } from 'uuid';
-import { validatePostFields } from './postValidation.js';
 
 class Post {
 	constructor({ id, title, content, createdDate, approved, userId }) {
@@ -12,15 +11,6 @@ class Post {
 	}
 
 	static async create({ id = uuidv4(), title, content, createdDate = new Date(), approved = false, userId }) {
-		validatePostFields({
-			id,
-			title,
-			content,
-			createdDate,
-			approved,
-			userId,
-		});
-
 		return new Post({
 			id,
 			title,
