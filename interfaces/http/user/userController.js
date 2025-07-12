@@ -9,32 +9,27 @@ class UserController {
 	};
 
 	getUserById = async (req, res) => {
-		const user = await this.userUsecaseRegistry.getUserById.execute(req.params.id);
+		const userId = req.params.id;
+		const user = await this.userUsecaseRegistry.getUserById.execute(userId);
 		res.json(user);
 	};
 
 	addUser = async (req, res) => {
-		const user = await this.userUsecaseRegistry.addUser.execute(req.body);
+		const userData = req.body;
+		const user = await this.userUsecaseRegistry.addUser.execute(userData);
 		res.json(user);
 	};
 
 	deleteUser = async (req, res) => {
-		const result = await this.userUsecaseRegistry.deleteUser.execute(req.params.id);
+		const userId = req.params.id;
+		const result = await this.userUsecaseRegistry.deleteUser.execute(userId);
 		res.json(result);
 	};
 
 	updateUser = async (req, res) => {
-		const result = await this.userUsecaseRegistry.updateUser.execute(req.params.id, req.body);
-		res.json(result);
-	};
-
-	getUserComments = async (req, res) => {
-		const result = await this.userUsecaseRegistry.getUserComments.execute(req.params.id);
-		res.json(result);
-	};
-
-	getUserPosts = async (req, res) => {
-		const result = await this.userUsecaseRegistry.getUserPosts.execute(req.params.id);
+		const userId = req.params.id;
+		const userData = req.body;
+		const result = await this.userUsecaseRegistry.updateUser.execute(userId, userData);
 		res.json(result);
 	};
 }

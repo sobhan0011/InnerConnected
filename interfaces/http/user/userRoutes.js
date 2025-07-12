@@ -1,6 +1,6 @@
 import express from 'express';
 import { makeInvoker } from 'awilix-express';
-import { createUserSchema, userIdParamSchema } from './userValidators.js';
+import { createUserSchema, updateUserSchema, userIdParamSchema } from './userValidators.js';
 import { validate } from '../common/middlewares/validator.js';
 
 function usersRouter() {
@@ -14,10 +14,7 @@ function usersRouter() {
 	router.get('/users/:id', validate(userIdParamSchema, 'params'), api('getUserById'));
 	router.post('/users/', validate(createUserSchema, 'body'), api('addUser'));
 	router.delete('/users/:id', validate(userIdParamSchema, 'params'), api('deleteUser'));
-	router.put('/users/:id', validate(userIdParamSchema, 'params'), validate(createUserSchema, 'body'), api('updateUser'));
-	router.get('/users/:id/comments', validate(userIdParamSchema, 'params'), api('getUserComments'));
-	router.get('/users/:id/posts', validate(userIdParamSchema, 'params'), api('getUserPosts'));
-
+	router.patch('/users/:id', validate(userIdParamSchema, 'params'), validate(updateUserSchema, 'body'), api('updateUser'));
 	return router;
 }
 
