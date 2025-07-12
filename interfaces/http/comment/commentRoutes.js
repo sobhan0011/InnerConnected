@@ -1,6 +1,6 @@
 import express from 'express';
 import { makeInvoker } from 'awilix-express';
-import { createCommentSchema, commentIdParamSchema } from './commentValidators.js';
+import { createCommentSchema, updateCommentSchema, commentIdParamSchema } from './commentValidators.js';
 import { validate } from '../common/middlewares/validator.js';
 
 function commentsRouter() {
@@ -14,10 +14,10 @@ function commentsRouter() {
 	router.get('/comments/:id', validate(commentIdParamSchema, 'params'), api('getCommentById'));
 	router.post('/comments/', validate(createCommentSchema, 'body'), api('addComment'));
 	router.delete('/comments/:id', validate(commentIdParamSchema, 'params'), api('deleteComment'));
-	router.put(
+	router.patch(
 		'/comments/:id',
 		validate(commentIdParamSchema, 'params'),
-		validate(createCommentSchema, 'body'),
+		validate(updateCommentSchema, 'body'),
 		api('updateComment'),
 	);
 

@@ -9,22 +9,27 @@ class CommentController {
 	};
 
 	getCommentById = async (req, res) => {
-		const comment = await this.commentUsecaseRegistry.getCommentById.execute(req.params.id);
+		const commentId = req.params.id;
+		const comment = await this.commentUsecaseRegistry.getCommentById.execute(commentId);
 		res.json(comment);
 	};
 
 	addComment = async (req, res) => {
-		const comment = await this.commentUsecaseRegistry.addComment.execute(req.body);
+		const commentData = req.body;
+		const comment = await this.commentUsecaseRegistry.addComment.execute(commentData);
 		res.json(comment);
 	};
 
 	deleteComment = async (req, res) => {
-		const result = await this.commentUsecaseRegistry.deleteComment.execute(req.params.id);
+		const commentId = req.params.id;
+		const result = await this.commentUsecaseRegistry.deleteComment.execute(commentId);
 		res.json(result);
 	};
 
 	updateComment = async (req, res) => {
-		const comment = await this.commentUsecaseRegistry.updateComment.execute(req.params.id, req.body);
+		const commentId = req.params.id;
+		const commentData = req.body;
+		const comment = await this.commentUsecaseRegistry.updateComment.execute(commentId, commentData);
 		res.json(comment);
 	};
 }
