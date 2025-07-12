@@ -6,15 +6,15 @@ import UserController from './interfaces/http/user/userController.js';
 import PostController from './interfaces/http/post/postController.js';
 import CommentController from './interfaces/http/comment/commentController.js';
 
-import UserUsecaseRegistry from './src/application/user/userUsecaseRegistry.js';
-import PostUsecaseRegistry from './src/application/post/postUsecaseRegistry.js';
-import CommentUsecaseRegistry from './src/application/comment/commentUsecaseRegistry.js';
+import UserUsecaseRegistry from './src/application/user/usecases/userUsecaseRegistry.js';
+import PostUsecaseRegistry from './src/application/post/usecases/postUsecaseRegistry.js';
+import CommentUsecaseRegistry from './src/application/comment/usecases/commentUsecaseRegistry.js';
 
 import Postgres from './src/infrastructure/db/postgres/postqres.js';
 import postgresConfig from './configs/moduleConfigs/postgresConfig.js';
-import postgresUserRepository from './src/infrastructure/db/postgres/postgresUserRepository.js';
-import postgresPostRepository from './src/infrastructure/db/postgres/postgresPostRepository.js';
-import postgresCommentRepository from './src/infrastructure/db/postgres/postgresCommentRepository.js';
+import postgresUserRepository from './src/infrastructure/db/postgres/repositories/postgresUserRepository.js';
+import postgresPostRepository from './src/infrastructure/db/postgres/repositories/postgresPostRepository.js';
+import postgresCommentRepository from './src/infrastructure/db/postgres/repositories/postgresCommentRepository.js';
 
 const container = createContainer();
 
