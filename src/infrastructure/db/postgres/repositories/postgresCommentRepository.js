@@ -5,8 +5,42 @@ class postgresCommentRepository {
 		this.db = db;
 	}
 
-	async getAllComments() {
-		const result = await this.db.query('SELECT * FROM comments');
+	async getComments(filter = {}) {
+		const conditions = [];
+		const values = [];
+		let i = 1;
+
+		if (filter.userId) {
+			conditions.push(`user_id = $${i++}`);
+			values.push(filter.userId);
+		}
+
+		if (filter.postId) {
+			conditions.push(`post_id = $${i++}`);
+			values.push(filter.postId);
+		}
+
+		if (filter.content) {
+			conditions.push(`content ILIKE $${i++}`);
+			values.push(`%${filter.content}%`);
+		}
+
+		if (filter.createdAfter) {
+			conditions.push(`created_at >= $${i++}`);
+			values.push(filter.createdAfter);
+		}
+
+		if (filter.createdBefore) {
+			conditions.push(`created_at <= $${i++}`);
+			values.push(filter.createdBefore);
+		}
+
+		let query = 'SELECT * FROM comments';
+		if (conditions.length > 0) {
+			query += ' WHERE ' + conditions.join(' AND ');
+		}
+
+		const result = await this.db.query(query, values);
 		return result.rows.map((commentData) => {
 			return this.commentDto(commentData);
 		});

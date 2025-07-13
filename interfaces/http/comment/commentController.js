@@ -4,7 +4,8 @@ class CommentController {
 	}
 
 	getComments = async (req, res) => {
-		const comments = await this.commentUsecaseRegistry.getComments.execute();
+		const filters = req.query;
+		const comments = await this.commentUsecaseRegistry.getComments.execute(filters);
 		res.json(comments);
 	};
 

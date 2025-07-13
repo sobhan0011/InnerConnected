@@ -5,8 +5,8 @@ class GetComments {
 		this.commentRepository = commentRepository;
 	}
 
-	async execute() {
-		const comments = await this.commentRepository.getAllComments();
+	async execute(filters) {
+		const comments = await this.commentRepository.getComments(filters);
 		if (!comments) return [];
 		return comments.map((comment) => {
 			return new CommentResponseDto(comment);
