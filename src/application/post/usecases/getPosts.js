@@ -5,8 +5,8 @@ class GetPosts {
 		this.postRepository = postRepository;
 	}
 
-	async execute() {
-		const posts = await this.postRepository.getAllPosts();
+	async execute(filters) {
+		const posts = await this.postRepository.getPosts(filters);
 		if (!posts) return [];
 		return posts.map((post) => {
 			return new PostResponseDto(post);

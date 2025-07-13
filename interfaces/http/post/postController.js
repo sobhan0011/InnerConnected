@@ -4,7 +4,8 @@ class PostController {
 	}
 
 	getPosts = async (req, res) => {
-		const posts = await this.postUsecaseRegistry.getPosts.execute();
+		const filters = req.query;
+		const posts = await this.postUsecaseRegistry.getPosts.execute(filters);
 		res.json(posts);
 	};
 

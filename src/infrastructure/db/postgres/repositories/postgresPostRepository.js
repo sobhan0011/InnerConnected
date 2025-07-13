@@ -5,8 +5,47 @@ class postgresPostRepository {
 		this.db = db;
 	}
 
-	async getAllPosts() {
-		const result = await this.db.query('SELECT * FROM posts');
+	async getPosts(filter = {}) {
+		const conditions = [];
+		const values = [];
+		let i = 1;
+
+		if (filter.approved !== undefined) {
+			conditions.push(`approved = $${i++}`);
+			values.push(filter.approved);
+		}
+
+		if (filter.userId) {
+			conditions.push(`user_id = $${i++}`);
+			values.push(filter.userId);
+		}
+
+		if (filter.title) {
+			conditions.push(`title ILIKE $${i++}`);
+			values.push(`%${filter.title}%`);
+		}
+
+		if (filter.content) {
+			conditions.push(`content ILIKE $${i++}`);
+			values.push(`%${filter.content}%`);
+		}
+
+		if (filter.createdAfter) {
+			conditions.push(`created_date >= $${i++}`);
+			values.push(filter.createdAfter);
+		}
+
+		if (filter.createdBefore) {
+			conditions.push(`created_date <= $${i++}`);
+			values.push(filter.createdBefore);
+		}
+
+		let query = 'SELECT * FROM posts';
+		if (conditions.length > 0) {
+			query += ' WHERE ' + conditions.join(' AND ');
+		}
+
+		const result = await this.db.query(query, values);
 		return result.rows.map((postData) => {
 			return this.postDto(postData);
 		});
