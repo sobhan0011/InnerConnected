@@ -49,3 +49,12 @@ export const updateUserSchema = Joi.object({
 export const userIdParamSchema = Joi.object({
 	id: Joi.string().uuid({ version: 'uuidv4' }).required(),
 });
+
+export const getUsersFilterSchema = Joi.object({
+	username: Joi.string().min(1).optional(),
+	email: Joi.string().email().optional(),
+	firstName: Joi.string().min(1).optional(),
+	lastName: Joi.string().min(1).optional(),
+	createdAfter: Joi.date().iso().optional(),
+	createdBefore: Joi.date().iso().optional(),
+});

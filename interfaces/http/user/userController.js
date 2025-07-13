@@ -4,7 +4,8 @@ class UserController {
 	}
 
 	getUsers = async (req, res) => {
-		const users = await this.userUsecaseRegistry.getUsers.execute();
+		const filters = req.query;
+		const users = await this.userUsecaseRegistry.getUsers.execute(filters);
 		res.json(users);
 	};
 

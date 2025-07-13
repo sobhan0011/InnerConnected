@@ -5,8 +5,47 @@ class postgresUserRepository {
 		this.db = db;
 	}
 
-	async getAllUsers() {
-		const result = await this.db.query('SELECT * FROM users');
+	async getUsers(filter = {}) {
+		const conditions = [];
+		const values = [];
+		let i = 1;
+
+		if (filter.username) {
+			conditions.push(`username = $${i++}`);
+			values.push(filter.username);
+		}
+
+		if (filter.email) {
+			conditions.push(`email = $${i++}`);
+			values.push(filter.email);
+		}
+
+		if (filter.firstName) {
+			conditions.push(`LOWER(first_name) = LOWER($${i++})`);
+			values.push(filter.firstName);
+		}
+
+		if (filter.lastName) {
+			conditions.push(`LOWER(last_name) = LOWER($${i++})`);
+			values.push(filter.lastName);
+		}
+
+		if (filter.createdAfter) {
+			conditions.push(`created_at >= $${i++}`);
+			values.push(filter.createdAfter);
+		}
+
+		if (filter.createdBefore) {
+			conditions.push(`created_at <= $${i++}`);
+			values.push(filter.createdBefore);
+		}
+
+		let query = 'SELECT * FROM users';
+		if (conditions.length > 0) {
+			query += ' WHERE ' + conditions.join(' AND ');
+		}
+
+		const result = await this.db.query(query, values);
 		return result.rows.map((userData) => {
 			return this.userDto(userData);
 		});
