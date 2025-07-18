@@ -6,5 +6,7 @@ export function UserResponseDto(user) {
 		username: user.username,
 		phoneNumber: user.phoneNumber,
 		email: user.email,
+		createdAt: user.createdAt,
+		role: user.role,
 	};
 }
