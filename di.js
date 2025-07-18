@@ -5,6 +5,7 @@ import serverConfig from './configs/serverConfig.js';
 import UserController from './interfaces/http/user/userController.js';
 import PostController from './interfaces/http/post/postController.js';
 import CommentController from './interfaces/http/comment/commentController.js';
+import AuthController from './interfaces/http/auth/authController.js';
 
 import UserUsecaseRegistry from './src/application/user/usecases/userUsecaseRegistry.js';
 import PostUsecaseRegistry from './src/application/post/usecases/postUsecaseRegistry.js';
@@ -25,6 +26,7 @@ container.register({
 	postUsecaseRegistry: asClass(PostUsecaseRegistry).scoped(),
 	commentUsecaseRegistry: asClass(CommentUsecaseRegistry).scoped(),
 
+	authController: asClass(AuthController).scoped(),
 	userController: asClass(UserController).scoped(),
 	postController: asClass(PostController).scoped(),
 	commentController: asClass(CommentController).scoped(),

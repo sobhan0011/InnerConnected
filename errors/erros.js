@@ -41,4 +41,52 @@ export const ERROR_CODES = {
 		en_message: 'Comment not found',
 		status: 404,
 	},
+	INVALID_EMAIL_OR_PASS: {
+		code: 'INVALID_EMAIL_OR_PASS',
+		fa_message: 'رمز یا ایمیل اشتباه وارد شد',
+		en_message: 'Wrong email or password entered',
+		status: 400,
+	},
+	UNAUTHORIZED: {
+		code: 'PERMISSION_DENIED',
+		fa_message: 'شما دسترسی کافی برای این عمل را ندارد',
+		en_message: 'You do not have permission',
+		status: 403,
+	},
+	PERMISSION_DENIED: {
+		code: 'PERMISSION_DENIED',
+		fa_message: 'شما دسترسی کافی برای این عمل را ندارد',
+		en_message: 'You do not have permission',
+		status: 403,
+	},
+	NO_PERMISSION_TO_ADD_ADMIN: {
+		code: 'NO_PERMISSION_TO_ADD_ADMIN',
+		fa_message: 'شما دسترسی کافی برای افزودن ادمین را ندارید',
+		en_message: 'You do not have permission to add admin',
+		status: 403,
+	},
+	NO_PERMISSION_TO_ADD_SUPER_ADMIN: {
+		code: 'NO_PERMISSION_TO_ADD_SUPER_ADMIN',
+		fa_message: 'شما دسترسی کافی برای افزودن سوپر ادمین را ندارید',
+		en_message: 'You do not have permission to add super admin',
+		status: 403,
+	},
+	NO_PERMISSION_TO_UPDATE_ADMIN: {
+		code: 'NO_PERMISSION_TO_UPDATE_ADMIN',
+		fa_message: 'شما دسترسی کافی برای آپدیت ادمین را ندارید',
+		en_message: 'You do not have permission to update admin',
+		status: 403,
+	},
+	NO_PERMISSION_TO_UPDATE_OTHER_SUPERADMIN: {
+		code: 'NO_PERMISSION_TO_UPDATE_OTHER_SUPERADMIN',
+		fa_message: 'شما دسترسی کافی برای آپدیت سایر سوپر ادمین‌ها را ندارید',
+		en_message: 'You do not have permission to update other super admin',
+		status: 403,
+	},
+	NO_PERMISSION_TO_UPDATE_FIELD: {
+		code: 'NO_PERMISSION_TO_UPDATE_FIELD',
+		fa_message: 'حق آپدیت این فیلد را ندارید',
+		en_message: 'You do not have permission to update this feild.',
+		status: 403,
+	},
 };
