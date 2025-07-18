@@ -54,12 +54,12 @@ class postgresCommentRepository {
 	}
 
 	async addComment(comment) {
-		const { id, content, createdDate, postId, userId } = comment;
+		const { id, content, createdDate, postId, userId, approved } = comment;
 		const result = await this.db.query(
-			`INSERT INTO comments (id, content, created_date, post_id, user_id)
-     VALUES ($1, $2, $3, $4, $5)
+			`INSERT INTO comments (id, content, created_date, post_id, user_id, approved)
+     VALUES ($1, $2, $3, $4, $5, $6)
      RETURNING *`,
-			[id, content, createdDate, postId, userId],
+			[id, content, createdDate, postId, userId, approved],
 		);
 		const commentData = result.rows[0];
 		if (!commentData) return null;

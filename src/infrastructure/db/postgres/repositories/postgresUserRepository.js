@@ -59,12 +59,12 @@ class postgresUserRepository {
 	}
 
 	async addUser(user) {
-		const { id, firstName, lastName, username, phoneNumber, password, email } = user;
+		const { id, firstName, lastName, username, phoneNumber, password, email, role } = user;
 		const result = await this.db.query(
-			`INSERT INTO users (id, first_name, last_name, username, phone_number, password, email)
-     VALUES ($1, $2, $3, $4, $5, $6, $7)
+			`INSERT INTO users (id, first_name, last_name, username, phone_number, password, email, role)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
      RETURNING *`,
-			[id, firstName, lastName, username, phoneNumber, password, email],
+			[id, firstName, lastName, username, phoneNumber, password, email, role],
 		);
 		const userData = result.rows[0];
 		if (!userData) return null;
@@ -115,6 +115,7 @@ class postgresUserRepository {
 			phoneNumber: userData.phone_number,
 			email: userData.email,
 			password: userData.password,
+			role: userData.role,
 		});
 	}
 }
