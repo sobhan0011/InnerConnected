@@ -4,9 +4,8 @@ class AuthController {
 	}
 
 	userSignup = async (req, res) => {
-		const email = req.body.email;
-		const password = req.body.password;
-		const result = await this.userUsecaseRegistry.userSignup.execute(email, password);
+		const userData = req.body;
+		const result = await this.userUsecaseRegistry.userSignup.execute(userData);
 		res.json(result);
 	};
 
