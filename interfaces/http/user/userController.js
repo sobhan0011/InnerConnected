@@ -5,32 +5,37 @@ class UserController {
 
 	getUsers = async (req, res) => {
 		const filters = req.query;
-		const users = await this.userUsecaseRegistry.getUsers.execute(filters);
+		const requester = req.user;
+		const users = await this.userUsecaseRegistry.getUsers.execute(filters, requester);
 		res.json(users);
 	};
 
 	getUserById = async (req, res) => {
-		const userId = req.params.id;
-		const user = await this.userUsecaseRegistry.getUserById.execute(userId);
+		const userId = req.params.id || req.user.id;
+		const requester = req.user;
+		const user = await this.userUsecaseRegistry.getUserById.execute(userId, requester);
 		res.json(user);
 	};
 
 	addUser = async (req, res) => {
 		const userData = req.body;
-		const user = await this.userUsecaseRegistry.addUser.execute(userData);
+		const requester = req.user;
+		const user = await this.userUsecaseRegistry.addUser.execute(userData, requester);
 		res.json(user);
 	};
 
 	deleteUser = async (req, res) => {
-		const userId = req.params.id;
-		const result = await this.userUsecaseRegistry.deleteUser.execute(userId);
+		const userId = req.params.id || req.user.id;
+		const requester = req.user;
+		const result = await this.userUsecaseRegistry.deleteUser.execute(userId, requester);
 		res.json(result);
 	};
 
 	updateUser = async (req, res) => {
-		const userId = req.params.id;
+		const userId = req.params.id || req.user.id;
 		const userData = req.body;
-		const result = await this.userUsecaseRegistry.updateUser.execute(userId, userData);
+		const requester = req.user;
+		const result = await this.userUsecaseRegistry.updateUser.execute(userId, userData, requester);
 		res.json(result);
 	};
 }
