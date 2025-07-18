@@ -1,8 +1,9 @@
 import { CustomError } from '../../../../errors/customError.js';
 import { ERROR_CODES } from '../../../../errors/erros.js';
 import validator from 'validator';
+import UserRoles from '../../../domain/user/userRoles.js';
 
-export function validateCreateUserFields({ firstName, lastName, username, phoneNumber, password, email }) {
+export function validateCreateUserFields({ firstName, lastName, username, phoneNumber, password, email, role }) {
 	const nameRegex = /^[\p{L}\s]+$/u;
 
 	if (!firstName || !nameRegex.test(firstName.trim())) {
@@ -42,6 +43,13 @@ export function validateCreateUserFields({ firstName, lastName, username, phoneN
 		throw new CustomError({
 			...ERROR_CODES.VALIDATION_FAILED,
 			details: 'Invalid phone number.',
+		});
+	}
+
+	if (!Object.values(UserRoles).includes(role)) {
+		throw new CustomError({
+			...ERROR_CODES.VALIDATION_FAILED,
+			details: 'Invalid role.',
 		});
 	}
 

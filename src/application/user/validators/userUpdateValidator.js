@@ -1,8 +1,9 @@
 import { CustomError } from '../../../../errors/customError.js';
 import { ERROR_CODES } from '../../../../errors/erros.js';
 import validator from 'validator';
+import UserRoles from '../../../domain/user/userRoles.js';
 
-export function validatUpdateUserFields({ firstName, lastName, username, phoneNumber }) {
+export function validatUpdateUserFields({ firstName, lastName, username, phoneNumber, role, email, password }) {
 	const nameRegex = /^[\p{L}\s]+$/u;
 
 	if (firstName) {
@@ -46,6 +47,36 @@ export function validatUpdateUserFields({ firstName, lastName, username, phoneNu
 		throw new CustomError({
 			...ERROR_CODES.VALIDATION_FAILED,
 			details: 'Invalid phone number.',
+		});
+	}
+
+	if (role && !Object.values(UserRoles).includes(role)) {
+		throw new CustomError({
+			...ERROR_CODES.VALIDATION_FAILED,
+			details: 'Invalid role.',
+		});
+	}
+
+	if (
+		password &&
+		!validator.isStrongPassword(password, {
+			minLength: 8,
+			minLowercase: 1,
+			minUppercase: 1,
+			minNumbers: 1,
+			minSymbols: 1,
+		})
+	) {
+		throw new CustomError({
+			...ERROR_CODES.VALIDATION_FAILED,
+			details: 'Password must be strong (min 8 chars, include uppercase, lowercase, number, symbol).',
+		});
+	}
+
+	if (email && !validator.isEmail(email)) {
+		throw new CustomError({
+			...ERROR_CODES.VALIDATION_FAILED,
+			details: 'Invalid email format.',
 		});
 	}
 }
