@@ -1,35 +1,74 @@
 import { CustomError } from '../../../../errors/customError.js';
 import { ERROR_CODES } from '../../../../errors/erros.js';
 import { UserResponseDto } from '../dtos/userResponseDto.js';
+import UserRoles from '../../../domain/user/userRoles.js';
 import { validatUpdateUserFields } from '../validators/userUpdateValidator.js';
+import bcrypt from 'bcrypt';
 
 class UpdateUser {
 	constructor(userRepository) {
 		this.userRepository = userRepository;
 	}
 
-	async execute(userId, userData) {
+	async execute(userId, userData, requester) {
 		validatUpdateUserFields(userData);
-		const { firstName: newFirstName, lastName: newLastName, username: newUsername, phoneNumber: newPhoneNumber } = userData;
 
-		const existingUser = await this.userRepository.getUserById(userId);
-		if (!existingUser) throw new CustomError(ERROR_CODES.USER_NOT_FOUND);
+		const targetUser = await this.userRepository.getUserById(userId);
+		if (!targetUser) throw new CustomError(ERROR_CODES.USER_NOT_FOUND);
 
-		const { firstName: oldFirstName, lastName: oldLastName, username: oldUsername, phoneNumber: oldPhoneNumber } = existingUser;
+		const isSelf = requester.id === userId;
+		const isAdmin = requester.role === UserRoles.ADMIN;
+		const isSuperAdmin = requester.role === UserRoles.SUPER_ADMIN;
 
-		if (newUsername && oldUsername !== newUsername) {
-			const existingByUsername = await this.userRepository.getByUsername(newUsername);
+		if (!isSelf && !isAdmin && !isSuperAdmin) {
+			throw new CustomError(ERROR_CODES.UNAUTHORIZED);
+		}
+		if (requester.role === UserRoles.USER && !isSelf) {
+			throw new CustomError(ERROR_CODES.UNAUTHORIZED);
+		}
+
+		if (isAdmin && targetUser.role !== UserRoles.USER) {
+			throw new CustomError(ERROR_CODES.NO_PERMISSION_TO_UPDATE_ADMIN);
+		}
+
+		let allowedFields = [];
+		if (requester.role === UserRoles.USER && isSelf) {
+			allowedFields = ['firstName', 'lastName', 'username'];
+		} else if (isAdmin || isSuperAdmin) {
+			allowedFields = ['firstName', 'lastName', 'username', 'phoneNumber', 'email', 'password', 'role'];
+		}
+
+		for (const key of Object.keys(userData)) {
+			if (!allowedFields.includes(key)) {
+				throw new CustomError(ERROR_CODES.NO_PERMISSION_TO_UPDATE_FIELD(key));
+			}
+		}
+
+		if (userData.username && userData.username !== targetUser.username) {
+			const existingByUsername = await this.userRepository.getByUsername(userData.username);
 			if (existingByUsername) {
 				throw new CustomError(ERROR_CODES.USERNAME_ALREADY_EXISTS);
 			}
 		}
 
-		existingUser.firstName = newFirstName ?? oldFirstName;
-		existingUser.lastName = newLastName ?? oldLastName;
-		existingUser.username = newUsername ?? oldUsername;
-		existingUser.phoneNumber = newPhoneNumber ?? oldPhoneNumber;
-		await this.userRepository.updateUser(existingUser);
-		return new UserResponseDto(existingUser);
+		if (userData.email && userData.email !== targetUser.email) {
+			const existingByEmail = await this.userRepository.getByEmail(userData.email);
+			if (existingByEmail) {
+				throw new CustomError(ERROR_CODES.EMAIL_ALREADY_EXISTS);
+			}
+		}
+
+		for (const key of allowedFields) {
+			if (key in userData) {
+				targetUser[key] = userData[key];
+			}
+		}
+
+		const saltRounds = 10;
+		if (targetUser.password) targetUser.password = await bcrypt.hash(targetUser.password, saltRounds);
+
+		await this.userRepository.updateUser(targetUser);
+		return new UserResponseDto(targetUser);
 	}
 }
 

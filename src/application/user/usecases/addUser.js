@@ -1,6 +1,7 @@
 import { CustomError } from '../../../../errors/customError.js';
 import { ERROR_CODES } from '../../../../errors/erros.js';
 import User from '../../../domain/user/user.js';
+import UserRoles from '../../../domain/user/userRoles.js';
 import { UserResponseDto } from '../dtos/userResponseDto.js';
 import { validateCreateUserFields } from '../validators/userCreateValidator.js';
 
@@ -9,8 +10,16 @@ class AddUser {
 		this.userRepository = userRepository;
 	}
 
-	async execute(userData) {
+	async execute(userData, requesterData) {
 		validateCreateUserFields(userData);
+
+		if (requesterData.role === UserRoles.USER) throw new CustomError(ERROR_CODES.UNAUTHORIZED);
+
+		if (requesterData.role === UserRoles.ADMIN && userData.role === UserRoles.ADMIN)
+			throw new CustomError(ERROR_CODES.NO_PERMISSION_TO_ADD_ADMIN);
+
+		if (requesterData.role === UserRoles.ADMIN && userData.role === UserRoles.SUPER_ADMIN)
+			throw new CustomError(ERROR_CODES.NO_PERMISSION_TO_ADD_SUPER_ADMIN);
 
 		const existingByEmail = await this.userRepository.getByEmail(userData.email);
 		if (existingByEmail) {
