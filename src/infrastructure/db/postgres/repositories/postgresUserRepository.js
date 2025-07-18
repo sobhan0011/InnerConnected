@@ -20,6 +20,16 @@ class postgresUserRepository {
 			values.push(filter.email);
 		}
 
+		if (filter.phoneNumber) {
+			conditions.push(`phone_number = $${i++}`);
+			values.push(filter.phoneNumber);
+		}
+
+		if (filter.role) {
+			conditions.push(`role = $${i++}`);
+			values.push(filter.role);
+		}
+
 		if (filter.firstName) {
 			conditions.push(`LOWER(first_name) = LOWER($${i++})`);
 			values.push(filter.firstName);
@@ -59,12 +69,12 @@ class postgresUserRepository {
 	}
 
 	async addUser(user) {
-		const { id, firstName, lastName, username, phoneNumber, password, email, role } = user;
+		const { id, firstName, lastName, username, phoneNumber, password, email, role, createdAt } = user;
 		const result = await this.db.query(
-			`INSERT INTO users (id, first_name, last_name, username, phone_number, password, email, role)
-     VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+			`INSERT INTO users (id, first_name, last_name, username, phone_number, password, email, role, created_at)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
      RETURNING *`,
-			[id, firstName, lastName, username, phoneNumber, password, email, role],
+			[id, firstName, lastName, username, phoneNumber, password, email, role, createdAt],
 		);
 		const userData = result.rows[0];
 		if (!userData) return null;
@@ -89,21 +99,41 @@ class postgresUserRepository {
 		await this.db.query('DELETE FROM users WHERE id = $1 RETURNING *', [id]);
 	}
 
-	async updateUser(userNewData) {
-		const { id, firstName, lastName, username, phoneNumber } = userNewData;
-		const result = await this.db.query(
-			`UPDATE users
-		 SET first_name = $1,
-		     last_name = $2,
-		     username = $3,
-		     phone_number = $4
-		 WHERE id = $5
-		 `,
-			[firstName, lastName, username, phoneNumber, id],
-		);
-		const userData = result.rows[0];
-		if (!userData) return null;
-		return this.userDto(userData);
+	async updateUser(userData) {
+		const allowedFields = ['firstName', 'lastName', 'username', 'phoneNumber', 'email', 'password', 'role'];
+		const updates = [];
+		const values = [];
+
+		let index = 1;
+
+		for (const field of allowedFields) {
+			if (userData[field] !== undefined) {
+				updates.push(`${this.toSnakeCase(field)} = $${index}`);
+				values.push(userData[field]);
+				index++;
+			}
+		}
+
+		if (updates.length === 0) {
+			throw new Error('No valid fields provided for update.');
+		}
+
+		values.push(userData.id);
+		const updateQuery = `
+		UPDATE users
+		SET ${updates.join(', ')}
+		WHERE id = $${index}
+		RETURNING *;
+	`;
+
+		const result = await this.db.query(updateQuery, values);
+		return result.rows[0] ? this.userDto(result.rows[0]) : null;
+	}
+
+	toSnakeCase(str) {
+		return str.replace(/[A-Z]/g, (letter) => {
+			return `_${letter.toLowerCase()}`;
+		});
 	}
 
 	userDto(userData) {
@@ -115,6 +145,7 @@ class postgresUserRepository {
 			phoneNumber: userData.phone_number,
 			email: userData.email,
 			password: userData.password,
+			createdAt: userData.created_at,
 			role: userData.role,
 		});
 	}
