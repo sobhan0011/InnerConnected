@@ -2,7 +2,7 @@ import { CustomError } from '../../../../errors/customError.js';
 import { ERROR_CODES } from '../../../../errors/erros.js';
 import validator from 'validator';
 
-export function validateCreateCommentFields({ content, postId, userId }) {
+export function validateCreateCommentFields({ content, postId, userId, approved }) {
 	if (!content || content.trim().length < 3) {
 		throw new CustomError({
 			...ERROR_CODES.VALIDATION_FAILED,
@@ -21,6 +21,13 @@ export function validateCreateCommentFields({ content, postId, userId }) {
 		throw new CustomError({
 			...ERROR_CODES.VALIDATION_FAILED,
 			details: 'User ID must be a valid UUID v4.',
+		});
+	}
+
+	if (!approved || !validator.isBoolean(approved)) {
+		throw new CustomError({
+			...ERROR_CODES.VALIDATION_FAILED,
+			details: 'approved must be a boolean value.',
 		});
 	}
 }

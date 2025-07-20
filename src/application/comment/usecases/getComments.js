@@ -1,3 +1,4 @@
+import UserRoles from '../../../domain/user/userRoles.js';
 import { CommentResponseDto } from '../dtos/commentResponseDto.js';
 
 class GetComments {
@@ -5,7 +6,8 @@ class GetComments {
 		this.commentRepository = commentRepository;
 	}
 
-	async execute(filters) {
+	async execute(filters, requester) {
+		if (!requester || requester.role !== UserRoles.ADMIN) filters.approved = true;
 		const comments = await this.commentRepository.getComments(filters);
 		if (!comments) return [];
 		return comments.map((comment) => {
