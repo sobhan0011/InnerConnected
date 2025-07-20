@@ -18,12 +18,12 @@ class UpdateUser {
 
 		const isSelf = requester.id === userId;
 		const isAdmin = requester.role === UserRoles.ADMIN;
-		const isSuperAdmin = requester.role === UserRoles.SUPER_ADMIN;
+		const isUser = requester.role === UserRoles.USER;
 
-		if (!isSelf && !isAdmin && !isSuperAdmin) {
+		if (!isSelf && !isAdmin) {
 			throw new CustomError(ERROR_CODES.UNAUTHORIZED);
 		}
-		if (requester.role === UserRoles.USER && !isSelf) {
+		if (isUser && !isSelf) {
 			throw new CustomError(ERROR_CODES.UNAUTHORIZED);
 		}
 
@@ -32,9 +32,9 @@ class UpdateUser {
 		}
 
 		let allowedFields = [];
-		if (requester.role === UserRoles.USER && isSelf) {
+		if (isUser) {
 			allowedFields = ['firstName', 'lastName', 'username'];
-		} else if (isAdmin || isSuperAdmin) {
+		} else if (isAdmin) {
 			allowedFields = ['firstName', 'lastName', 'username', 'phoneNumber', 'email', 'password', 'role'];
 		}
 

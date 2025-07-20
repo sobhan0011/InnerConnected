@@ -18,9 +18,6 @@ class AddUser {
 		if (requesterData.role === UserRoles.ADMIN && userData.role === UserRoles.ADMIN)
 			throw new CustomError(ERROR_CODES.NO_PERMISSION_TO_ADD_ADMIN);
 
-		if (requesterData.role === UserRoles.ADMIN && userData.role === UserRoles.SUPER_ADMIN)
-			throw new CustomError(ERROR_CODES.NO_PERMISSION_TO_ADD_SUPER_ADMIN);
-
 		const existingByEmail = await this.userRepository.getByEmail(userData.email);
 		if (existingByEmail) {
 			throw new CustomError(ERROR_CODES.EMAIL_ALREADY_EXISTS);

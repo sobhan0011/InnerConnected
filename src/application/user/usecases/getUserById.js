@@ -13,17 +13,13 @@ class GetUserById {
 		if (!user) throw new CustomError(ERROR_CODES.USER_NOT_FOUND);
 
 		const isSelf = requester.id === userId;
-		const isSuperAdmin = requester.role === UserRoles.SUPER_ADMIN;
 		const isAdmin = requester.role === UserRoles.ADMIN;
 
-		if (!isSelf && !isSuperAdmin) {
-			if (isAdmin && user.role !== UserRoles.USER) {
-				throw new CustomError(ERROR_CODES.UNAUTHORIZED);
-			}
-			if (!isAdmin) {
-				throw new CustomError(ERROR_CODES.UNAUTHORIZED);
-			}
+		if (!isSelf && !isAdmin) {
+			throw new CustomError(ERROR_CODES.UNAUTHORIZED);
 		}
+
+		if (isAdmin && user.role !== UserRoles.USER) throw new CustomError(ERROR_CODES.UNAUTHORIZED);
 
 		return new UserResponseDto(user);
 	}

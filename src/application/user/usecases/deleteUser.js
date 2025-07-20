@@ -13,7 +13,7 @@ class DeleteUser {
 
 		if (
 			(requester.role === UserRoles.USER && requester.id !== userId) ||
-			(requester.role === UserRoles.ADMIN && [UserRoles.ADMIN, UserRoles.SUPER_ADMIN].includes(targetUser.role))
+			(requester.role === UserRoles.ADMIN && UserRoles.ADMIN === targetUser.role)
 		) {
 			throw new CustomError(ERROR_CODES.UNAUTHORIZED);
 		}

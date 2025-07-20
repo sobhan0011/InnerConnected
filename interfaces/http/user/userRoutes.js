@@ -19,46 +19,44 @@ function usersRouter() {
 		return container.userController;
 	});
 
-	router.get('/users/me', authentication, authorization([], true), api('getUserById'));
-	router.delete('/users/me', authentication, authorization([], true), api('deleteUser'));
-	router.patch('/users/me', validate(updateMyAccountSchema, 'body'), authentication, authorization([], true), api('updateUser'));
-
 	router.get(
 		'/users/',
 		validate(getUsersFilterSchema, 'query'),
 		authentication,
-		authorization([UserRoles.SUPER_ADMIN, UserRoles.ADMIN]),
+		authorization([UserRoles.ADMIN]),
 		api('getUsers'),
 	);
+
 	router.get(
 		'/users/:id',
 		validate(userIdParamSchema, 'params'),
 		authentication,
-		authorization([UserRoles.SUPER_ADMIN, UserRoles.ADMIN]),
+		authorization([UserRoles.ADMIN]),
 		api('getUserById'),
 	);
-	router.post(
-		'/users/',
-		validate(createUserSchema, 'body'),
-		authentication,
-		authorization([UserRoles.SUPER_ADMIN, UserRoles.ADMIN]),
-		api('addUser'),
-	);
+	router.get('/users/me', authentication, api('getUserById'));
+
+	router.post('/users/', validate(createUserSchema, 'body'), authentication, authorization([UserRoles.ADMIN]), api('addUser'));
+
 	router.delete(
 		'/users/:id',
 		validate(userIdParamSchema, 'params'),
 		authentication,
-		authorization([UserRoles.SUPER_ADMIN, UserRoles.ADMIN]),
+		authorization([UserRoles.ADMIN]),
 		api('deleteUser'),
 	);
+	router.delete('/users/me', authentication, api('deleteUser'));
+
 	router.patch(
 		'/users/:id',
 		validate(userIdParamSchema, 'params'),
 		validate(updateUserSchema, 'body'),
 		authentication,
-		authorization([UserRoles.SUPER_ADMIN, UserRoles.ADMIN]),
+		authorization([UserRoles.ADMIN]),
 		api('updateUser'),
 	);
+	router.patch('/users/me', validate(updateMyAccountSchema, 'body'), authentication, api('updateUser'));
+
 	return router;
 }
 

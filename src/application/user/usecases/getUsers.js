@@ -13,12 +13,10 @@ class GetUsers {
 			throw new CustomError(ERROR_CODES.UNAUTHORIZED);
 		}
 
-		if (requester.role === UserRoles.ADMIN) {
-			filters = {
-				...filters,
-				role: UserRoles.USER,
-			};
-		}
+		filters = {
+			...filters,
+			role: UserRoles.USER,
+		};
 
 		const users = await this.userRepository.getUsers(filters);
 		if (!users) return [];
