@@ -1,7 +1,7 @@
 import { CustomError } from '../../../../errors/customError.js';
 import { ERROR_CODES } from '../../../../errors/erros.js';
 
-export function validateUpdatePostFields({ title, content }) {
+export function validateUpdatePostFields({ title, content, userId, approved }) {
 	if (title && title.trim().length < 3) {
 		throw new CustomError({
 			...ERROR_CODES.VALIDATION_FAILED,
@@ -9,10 +9,31 @@ export function validateUpdatePostFields({ title, content }) {
 		});
 	}
 
-	if (!content && content.trim().length < 10) {
+	if (content && content.trim().length < 10) {
 		throw new CustomError({
 			...ERROR_CODES.VALIDATION_FAILED,
 			details: 'Content must be at least 10 characters long.',
+		});
+	}
+
+	if (userId && !validator.isUUID(userId, 4)) {
+		throw new CustomError({
+			...ERROR_CODES.VALIDATION_FAILED,
+			details: 'User ID must be a valid UUID v4.',
+		});
+	}
+
+	if (approved && !validator.isBoolean(approved)) {
+		throw new CustomError({
+			...ERROR_CODES.VALIDATION_FAILED,
+			details: 'approved must be a boolean value.',
+		});
+	}
+
+	if (!title && !content && !userId && !approved) {
+		throw new CustomError({
+			...ERROR_CODES.VALIDATION_FAILED,
+			details: 'Update comment should have at least one field.',
 		});
 	}
 }
