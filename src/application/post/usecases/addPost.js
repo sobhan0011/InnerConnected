@@ -10,10 +10,21 @@ class AddPost {
 		this.userRepository = userRepository;
 	}
 
-	async execute(postData) {
+	async execute(postData, requester) {
 		validateCreatePostFields(postData);
-		const user = await this.userRepository.getUserById(postData.userId);
-		if (!user) throw new CustomError(ERROR_CODES.USER_NOT_FOUND);
+		const postOwner = await this.userRepository.getUserById(postData.userId);
+		if (!postOwner) throw new CustomError(ERROR_CODES.USER_NOT_FOUND);
+
+		const requesterOwnsPost = postData.userId === requester.id;
+		const postOwnerIsAdmin = postOwner.role === UserRoles.ADMIN;
+		const requesterIsAdmin = requester.role === UserRoles.ADMIN;
+		if (!requesterOwnsPost && (postOwnerIsAdmin || !requesterIsAdmin)) {
+			throw new CustomError(ERROR_CODES.UNAUTHORIZED);
+		}
+		if (!requesterIsAdmin && postData.approved) {
+			throw new CustomError(ERROR_CODES.UNAUTHORIZED);
+		}
+
 		const post = await Post.create(postData);
 		await this.postRepository.addPost(post);
 		return PostResponseDto(post);
