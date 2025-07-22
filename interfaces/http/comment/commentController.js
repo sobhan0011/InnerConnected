@@ -20,6 +20,7 @@ class CommentController {
 	addComment = async (req, res) => {
 		const commentData = req.body;
 		const requester = req.user;
+		if (!commentData.userId) commentData.userId = requester.id;
 		const comment = await this.commentUsecaseRegistry.addComment.execute(commentData, requester);
 		res.json(comment);
 	};
@@ -35,6 +36,7 @@ class CommentController {
 		const commentId = req.params.id;
 		const commentData = req.body;
 		const requester = req.user;
+		if (!commentData.userId) commentData.userId = requester.id;
 		const comment = await this.commentUsecaseRegistry.updateComment.execute(commentId, commentData, requester);
 		res.json(comment);
 	};

@@ -11,6 +11,8 @@ class CommentUsecaseRegistry {
 		this.getComments = new GetComments(commentRepository);
 		this.getCommentById = new GetCommentById(commentRepository);
 		this.updateComment = new UpdateComment(commentRepository);
+		this.approveComment = new ApproveComment(commentRepository);
+		this.rejectComment = new RejectComment(commentRepository);
 	}
 }
 

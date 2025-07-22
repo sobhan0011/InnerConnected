@@ -1,5 +1,5 @@
-import { CustomError } from '../../../../errors/customError';
-import { ERROR_CODES } from '../../../../errors/erros';
+import { CustomError } from '../../../../errors/customError.js';
+import { ERROR_CODES } from '../../../../errors/erros.js';
 
 class DeleteComment {
 	constructor(commentRepository, userRepository) {
@@ -22,7 +22,7 @@ class DeleteComment {
 
 		const requesterOwnsComment = commentData.userId === requester.id;
 		const commentOwnerIsAdmin = commentOwner.role === UserRoles.ADMIN;
-		const requesterIsAdmin = requester.role ===  UserRoles.ADMIN;
+		const requesterIsAdmin = requester.role === UserRoles.ADMIN;
 
 		if (!requesterOwnsComment && (!requesterIsAdmin || commentOwnerIsAdmin)) throw new CustomError(ERROR_CODES.UNAUTHORIZED);
 	}

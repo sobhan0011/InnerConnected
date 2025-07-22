@@ -24,7 +24,7 @@ export function validateCreateCommentFields({ content, postId, userId, approved 
 		});
 	}
 
-	if (!approved || !validator.isBoolean(approved)) {
+	if (approved && !validator.isBoolean(approved)) {
 		throw new CustomError({
 			...ERROR_CODES.VALIDATION_FAILED,
 			details: 'approved must be a boolean value.',
