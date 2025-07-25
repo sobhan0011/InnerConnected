@@ -1,10 +1,9 @@
+import serverConfig from '../../../../configs/serverConfig.js';
 import { CustomError } from '../../../../errors/customError.js';
 import { ERROR_CODES } from '../../../../errors/erros.js';
 import { validateUserLoginFields } from '../validators/userLoginValidator.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
-dotenv.config();
 
 class UserLogin {
 	constructor(userRepository) {
@@ -21,7 +20,7 @@ class UserLogin {
 
 		const passwordIsCorrect = await bcrypt.compare(password, existingUser.password);
 		if (!passwordIsCorrect) throw new CustomError(ERROR_CODES.INVALID_EMAIL_OR_PASS);
-		const token = jwt.sign({ id: existingUser.id, role: existingUser.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
+		const token = jwt.sign({ id: existingUser.id, role: existingUser.role }, serverConfig.JWT_SECRET, { expiresIn: '1h' });
 		return token;
 	}
 }
