@@ -11,6 +11,7 @@ import { validate } from '../common/middlewares/validator.js';
 import { authentication } from '../common/middlewares/authentication.js';
 import { authorization } from '../common/middlewares/authorization.js';
 import UserRoles from '../../../src/domain/user/userRoles.js';
+import { upload } from '../common/middlewares/upload.js';
 
 function usersRouter() {
 	const router = express.Router();
@@ -18,6 +19,11 @@ function usersRouter() {
 	const api = makeInvoker((container) => {
 		return container.userController;
 	});
+
+	router.get('/users/me', authentication, api('getUserById'));
+	router.patch('/users/me', validate(updateMyAccountSchema, 'body'), authentication, api('updateUser'));
+	router.delete('/users/me', authentication, api('deleteUser'));
+	router.post('/users/me/upload-image', authentication, upload, api('uploadProfileImage'));
 
 	router.get(
 		'/users/',
@@ -34,7 +40,6 @@ function usersRouter() {
 		authorization([UserRoles.ADMIN]),
 		api('getUserById'),
 	);
-	router.get('/users/me', authentication, api('getUserById'));
 
 	router.post('/users/', validate(createUserSchema, 'body'), authentication, authorization([UserRoles.ADMIN]), api('addUser'));
 
@@ -45,7 +50,6 @@ function usersRouter() {
 		authorization([UserRoles.ADMIN]),
 		api('deleteUser'),
 	);
-	router.delete('/users/me', authentication, api('deleteUser'));
 
 	router.patch(
 		'/users/:id',
@@ -55,7 +59,6 @@ function usersRouter() {
 		authorization([UserRoles.ADMIN]),
 		api('updateUser'),
 	);
-	router.patch('/users/me', validate(updateMyAccountSchema, 'body'), authentication, api('updateUser'));
 
 	return router;
 }

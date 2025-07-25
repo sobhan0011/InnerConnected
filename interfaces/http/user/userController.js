@@ -38,6 +38,16 @@ class UserController {
 		const result = await this.userUsecaseRegistry.updateUser.execute(userId, userData, requester);
 		res.json(result);
 	};
+
+	uploadProfileImage = async (req, res) => {
+		if (!req.file) {
+			return res.status(400).json({ message: 'No file uploaded.' });
+		}
+		const filePath = `/uploads/${req.file.filename}`;
+		const userId = req.user.id;
+		const result = await this.userUsecaseRegistry.uploadProfileImage.execute(userId, filePath);
+		res.json(result);
+	};
 }
 
 export default UserController;
