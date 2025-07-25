@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import UserRoles from './userRoles.js';
 
 class User {
-	constructor({ id, firstName, lastName, username, phoneNumber, password, email, role, createdAt }) {
+	constructor({ id, firstName, lastName, username, phoneNumber, password, email, role, createdAt, profileImage }) {
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -13,6 +13,7 @@ class User {
 		this.email = email;
 		this.role = role;
 		this.createdAt = createdAt;
+		this.profileImage = profileImage;
 	}
 
 	static async create({
@@ -25,6 +26,7 @@ class User {
 		email,
 		role = UserRoles.USER,
 		createdAt = new Date(),
+		profileImage = null,
 	}) {
 		const saltRounds = 10;
 		const hashedPassword = await bcrypt.hash(password, saltRounds);
@@ -39,6 +41,7 @@ class User {
 			email,
 			role,
 			createdAt,
+			profileImage,
 		});
 	}
 }

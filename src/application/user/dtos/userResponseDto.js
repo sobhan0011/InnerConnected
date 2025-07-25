@@ -8,5 +8,6 @@ export function UserResponseDto(user) {
 		email: user.email,
 		createdAt: user.createdAt,
 		role: user.role,
+		profileImage: user.profileImage,
 	};
 }

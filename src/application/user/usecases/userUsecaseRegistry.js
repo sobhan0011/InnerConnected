@@ -5,6 +5,7 @@ import DeleteUser from './deleteUser.js';
 import UpdateUser from './updateUser.js';
 import UserLogin from './userLogin.js';
 import UserSignup from './userSignup.js';
+import UploadProfileImage from './uploadProfileImage.js';
 
 class UserUsecaseRegistry {
 	constructor({ userRepository }) {
@@ -15,6 +16,7 @@ class UserUsecaseRegistry {
 		this.updateUser = new UpdateUser(userRepository);
 		this.userLogin = new UserLogin(userRepository);
 		this.userSignup = new UserSignup(userRepository);
+		this.uploadProfileImage = new UploadProfileImage(userRepository);
 	}
 }
 

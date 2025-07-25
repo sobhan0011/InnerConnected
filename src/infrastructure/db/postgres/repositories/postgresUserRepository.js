@@ -130,6 +130,12 @@ class postgresUserRepository {
 		return result.rows[0] ? this.userDto(result.rows[0]) : null;
 	}
 
+	async updateUserProfileImage(userId, filePath) {
+		const query = 'UPDATE users SET profile_image = $1 WHERE id = $2 RETURNING *';
+		const result = await this.db.query(query, [filePath, userId]);
+		return result.rows[0] ? this.userDto(result.rows[0]) : null;
+	}
+
 	toSnakeCase(str) {
 		return str.replace(/[A-Z]/g, (letter) => {
 			return `_${letter.toLowerCase()}`;
@@ -147,6 +153,7 @@ class postgresUserRepository {
 			password: userData.password,
 			createdAt: userData.created_at,
 			role: userData.role,
+			profileImage: userData.profile_image,
 		});
 	}
 }
