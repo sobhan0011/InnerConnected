@@ -17,12 +17,6 @@ class App {
 		setupRoutes(this.app);
 		this.app.use(errorHandler);
 	}
-
-	run() {
-		return this.app.listen(this.PORT, () => {
-			console.log(`Server running on http://localhost:${this.PORT}`);
-		});
-	}
 }
 
 export default App;
