@@ -1,23 +1,43 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import { createRouter, createWebHistory } from 'vue-router';
+import LoginView from '@/views/LoginView.vue';
+import SignUpView from '@/views/SignUpView.vue';
+import { useAuthStore } from '@/stores/auth';
+import FeedView from '@/views/FeedView.vue';
+import ChatDiscverView from '@/views/ChatDiscverView.vue';
+import ChatDetailView from '@/views/ChatDetailView.vue';
+import ProfileView from '@/views/ProfileView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/',
-      name: 'home',
-      component: HomeView,
+      path: '/login',
+      name: 'login',
+      component: LoginView,
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue'),
+      path: '/signup',
+      name: 'signup',
+      component: SignUpView,
     },
+    { path: '/feed', name: 'feed', component: FeedView, meta: { requriesAuth: true } },
+    { path: '/chat', name: 'chat', component: ChatDiscverView, meta: { requriesAuth: true } },
+    {
+      path: '/chat/:userId',
+      name: 'chatDetail',
+      component: ChatDetailView,
+      meta: { requriesAuth: true },
+    },
+    { path: '/', redirect: '/feed' },
+    { path: '/profile', name: 'profile', component: ProfileView },
   ],
-})
+});
 
-export default router
+router.beforeEach((to, from, next) => {
+  const authStore = useAuthStore();
+  const isLoggedIn = authStore.token;
+  if (to.meta.requriesAuth && !isLoggedIn) next({ name: 'login' });
+  else next();
+});
+
+export default router;

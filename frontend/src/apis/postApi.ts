@@ -10,12 +10,14 @@ const baseUrl = `${expressBlogConfig.expressBlogHost}:${expressBlogConfig.expres
 export async function fetchPostsWithUsers(): Promise<PostWithUser[] | undefined> {
   try {
     const { data } = await axios.get(`${baseUrl}/api/v1/posts?includeUser=true`);
+
     const updatedData = data.map((postUserData: PostWithUser) => {
       if (postUserData.profileImage) {
         postUserData.profileImage = `${baseUrl}${postUserData.profileImage}`;
       }
       return postUserData;
     });
+    
     return updatedData;
   } catch (err: unknown) {
     if (err instanceof Error) {
@@ -48,7 +50,6 @@ export async function addPost(content: string) {
       },
     );
   } catch (err: unknown) {
-    console.log(err);
     if (err instanceof Error) {
       throw CustomError.createError(ERRORS.ERROR_WHILE_ADDING_POST, err);
     } else {

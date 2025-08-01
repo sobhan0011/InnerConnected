@@ -42,6 +42,7 @@ export async function signUp(signUpData: {
     });
     return response.data;
   } catch (err: unknown) {
+    console.log(err);
     if (err instanceof AxiosError) {
       if (err.status === 400) throw CustomError.createError(ERRORS.BAD_REQUEST, err);
     } else {
