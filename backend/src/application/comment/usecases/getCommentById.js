@@ -8,17 +8,11 @@ class GetCommentById {
 		this.commentRepository = commentRepository;
 	}
 
-	async execute(commentId, requester) {
+	async execute(commentId) {
 		const comment = await this.commentRepository.getCommentById(commentId);
-		await this.checkGetCommentByIdAccessRules(comment, requester);
-		return new CommentResponseDto(comment);
-	}
-
-	async checkGetCommentByIdAccessRules(comment, requester) {
 		if (!comment) throw new CustomError(ERROR_CODES.COMMENT_NOT_FOUND);
-		const requesterIsAdmin = requester.role === UserRoles.ADMIN;
-		const requesterOwnsComment = comment.userId === requester.id;
-		if (!requesterIsAdmin && !requesterOwnsComment && !comment.approved) throw new CustomError(ERROR_CODES.UNAUTHORIZED);
+
+		return new CommentResponseDto(comment);
 	}
 }
 

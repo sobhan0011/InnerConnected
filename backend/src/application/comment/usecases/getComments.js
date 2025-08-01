@@ -6,8 +6,7 @@ class GetComments {
 		this.commentRepository = commentRepository;
 	}
 
-	async execute(filters, requester) {
-		if (!requester || requester.role !== UserRoles.ADMIN) filters.approved = true;
+	async execute(filters) {
 		const comments = await this.commentRepository.getComments(filters);
 		if (!comments) return [];
 		return comments.map((comment) => {

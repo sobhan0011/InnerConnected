@@ -3,9 +3,6 @@ import GetCommentById from './getCommentById.js';
 import GetComments from './getComments.js';
 import DeleteComment from './deleteComment.js';
 import UpdateComment from './updateComment.js';
-import ApproveComment from './approveComment.js';
-import RejectComment from './rejectComment.js';
-
 
 class CommentUsecaseRegistry {
 	constructor({ commentRepository, userRepository, postRepository }) {
@@ -14,8 +11,6 @@ class CommentUsecaseRegistry {
 		this.getComments = new GetComments(commentRepository);
 		this.getCommentById = new GetCommentById(commentRepository);
 		this.updateComment = new UpdateComment(commentRepository);
-		this.approveComment = new ApproveComment(commentRepository);
-		this.rejectComment = new RejectComment(commentRepository);
 	}
 }
 

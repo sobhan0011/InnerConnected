@@ -30,13 +30,9 @@ class AddComment {
 		if (!requesterOwnsComment && (commentOwnerIsAdmin || !requesterIsAdmin)) {
 			throw new CustomError(ERROR_CODES.UNAUTHORIZED);
 		}
-		if (!requesterIsAdmin && commentData.approved) {
-			throw new CustomError(ERROR_CODES.UNAUTHORIZED);
-		}
 
 		const post = await this.postRepository.getPostById(commentData.postId);
 		if (!post) throw new CustomError(ERROR_CODES.POST_NOT_FOUND);
-		if (!requesterIsAdmin && !post.approved) throw new CustomError(ERROR_CODES.UNAUTHORIZED);
 	}
 }
 

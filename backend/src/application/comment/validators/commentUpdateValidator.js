@@ -2,7 +2,7 @@ import { CustomError } from '../../../../errors/customError.js';
 import { ERROR_CODES } from '../../../../errors/erros.js';
 import validator from 'validator';
 
-export function validateUpdateCommentFields({ content, postId, userId, approved }) {
+export function validateUpdateCommentFields({ content, postId, userId }) {
 	if (content && content.trim().length < 3) {
 		throw new CustomError({
 			...ERROR_CODES.VALIDATION_FAILED,
@@ -24,14 +24,7 @@ export function validateUpdateCommentFields({ content, postId, userId, approved 
 		});
 	}
 
-	if (approved && !validator.isBoolean(approved)) {
-		throw new CustomError({
-			...ERROR_CODES.VALIDATION_FAILED,
-			details: 'approved must be a boolean value.',
-		});
-	}
-
-	if (!content && !postId && !userId && !approved) {
+	if (!content && !postId && !userId) {
 		throw new CustomError({
 			...ERROR_CODES.VALIDATION_FAILED,
 			details: 'Update comment should have at least one field.',
