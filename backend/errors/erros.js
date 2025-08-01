@@ -45,7 +45,7 @@ export const ERROR_CODES = {
 		code: 'INVALID_EMAIL_OR_PASS',
 		fa_message: 'رمز یا ایمیل اشتباه وارد شد',
 		en_message: 'Wrong email or password entered',
-		status: 400,
+		status: 404,
 	},
 	UNAUTHORIZED: {
 		code: 'PERMISSION_DENIED',
