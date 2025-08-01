@@ -1,28 +1,19 @@
-import Post from '../../../../domain/post/post.js';
+import { postDto } from '../dtos/postDto.js';
+import { postWithUserDto } from '../dtos/postWithUserDto.js';
 
 class postgresPostRepository {
 	constructor({ db }) {
 		this.db = db;
 	}
 
-	async getPosts(filter = {}) {
+	filterBuilder(filter) {
 		const conditions = [];
 		const values = [];
 		let i = 1;
 
-		if (filter.approved !== undefined) {
-			conditions.push(`approved = $${i++}`);
-			values.push(filter.approved);
-		}
-
 		if (filter.userId) {
 			conditions.push(`user_id = $${i++}`);
 			values.push(filter.userId);
-		}
-
-		if (filter.title) {
-			conditions.push(`title ILIKE $${i++}`);
-			values.push(`%${filter.title}%`);
 		}
 
 		if (filter.content) {
@@ -39,7 +30,11 @@ class postgresPostRepository {
 			conditions.push(`created_date <= $${i++}`);
 			values.push(filter.createdBefore);
 		}
+		return { conditions, values };
+	}
 
+	async getPosts(filter = {}) {
+		const { conditions, values } = this.filterBuilder(filter);
 		let query = 'SELECT * FROM posts';
 		if (conditions.length > 0) {
 			query += ' WHERE ' + conditions.join(' AND ');
@@ -47,7 +42,27 @@ class postgresPostRepository {
 
 		const result = await this.db.query(query, values);
 		return result.rows.map((postData) => {
-			return this.postDto(postData);
+			return postDto(postData);
+		});
+	}
+
+	async getPostsWithUser(filter = {}) {
+		let query = `
+        SELECT posts.*,
+				users.id AS user_id, users.first_name, users.last_name, users.username, users.email,
+				users.phone_number, users.password, users.created_at, users.role, users.profile_image
+        FROM posts
+        JOIN users ON posts.user_id = users.id
+    `;
+
+		const { conditions, values } = this.filterBuilder(filter);
+		if (conditions.length > 0) {
+			query += ' WHERE ' + conditions.join(' AND ');
+		}
+
+		const result = await this.db.query(query, values);
+		return result.rows.map((postWithUserData) => {
+			return postWithUserDto(postWithUserData);
 		});
 	}
 
@@ -55,20 +70,20 @@ class postgresPostRepository {
 		const result = await this.db.query('SELECT * FROM posts WHERE id = $1', [id]);
 		const postData = result.rows[0];
 		if (!postData) return null;
-		return this.postDto(postData);
+		return postDto(postData);
 	}
 
 	async addPost(post) {
-		const { id, title, content, createdDate, approved, userId } = post;
+		const { id, content, createdDate, userId } = post;
 		const result = await this.db.query(
-			`INSERT INTO posts (id, title, content, created_date, approved, user_id)
-     VALUES ($1, $2, $3, $4, $5, $6)
+			`INSERT INTO posts (id, content, created_date, user_id)
+     VALUES ($1, $2, $3, $4)
      RETURNING *`,
-			[id, title, content, createdDate, approved, userId],
+			[id, content, createdDate, userId],
 		);
 		const postData = result.rows[0];
 		if (!postData) return null;
-		return this.postDto(postData);
+		return postDto(postData);
 	}
 
 	async deletePost(id) {
@@ -76,44 +91,17 @@ class postgresPostRepository {
 	}
 
 	async updatePost(postNewData) {
-		const { id, title, content } = postNewData;
+		const { id, content } = postNewData;
 		const result = await this.db.query(
 			`UPDATE posts
-		 SET title = $1,
-		     content = $2
-		 WHERE id = $3
+		 SET content = $1
+		 WHERE id = $2
 		 `,
-			[title, content, id],
+			[content, id],
 		);
 		const postData = result.rows[0];
 		if (!postData) return null;
-		return this.postDto(postData);
-	}
-
-	async updatePostApprovalStatus(postId, approved) {
-		const result = await this.db.query(
-			`UPDATE posts
-     SET approved = $1
-     WHERE id = $2
-     RETURNING *`,
-			[approved, postId],
-		);
-
-		const postData = result.rows[0];
-		if (!postData) return null;
-
-		return this.postDto(postData);
-	}
-
-	postDto(postData) {
-		return new Post({
-			id: postData.id,
-			title: postData.title,
-			content: postData.content,
-			createdDate: postData.created_date,
-			approved: postData.approved,
-			userId: postData.user_id,
-		});
+		return postDto(postData);
 	}
 }
 

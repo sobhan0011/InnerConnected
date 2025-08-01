@@ -1,4 +1,4 @@
-import User from '../../../../domain/user/user.js';
+import { userDto } from '../dtos/userDto.js';
 
 class postgresUserRepository {
 	constructor({ db }) {
@@ -57,7 +57,7 @@ class postgresUserRepository {
 
 		const result = await this.db.query(query, values);
 		return result.rows.map((userData) => {
-			return this.userDto(userData);
+			return userDto(userData);
 		});
 	}
 
@@ -65,7 +65,7 @@ class postgresUserRepository {
 		const result = await this.db.query('SELECT * FROM users WHERE id = $1', [id]);
 		const userData = result.rows[0];
 		if (!userData) return null;
-		return this.userDto(userData);
+		return userDto(userData);
 	}
 
 	async addUser(user) {
@@ -78,21 +78,21 @@ class postgresUserRepository {
 		);
 		const userData = result.rows[0];
 		if (!userData) return null;
-		return this.userDto(userData);
+		return userDto(userData);
 	}
 
 	async getByEmail(email) {
 		const result = await this.db.query('SELECT * FROM users WHERE email = $1', [email]);
 		const userData = result.rows[0];
 		if (!userData) return null;
-		return this.userDto(userData);
+		return userDto(userData);
 	}
 
 	async getByUsername(username) {
 		const result = await this.db.query('SELECT * FROM users WHERE username = $1', [username]);
 		const userData = result.rows[0];
 		if (!userData) return null;
-		return this.userDto(userData);
+		return userDto(userData);
 	}
 
 	async deleteUser(id) {
@@ -127,33 +127,18 @@ class postgresUserRepository {
 	`;
 
 		const result = await this.db.query(updateQuery, values);
-		return result.rows[0] ? this.userDto(result.rows[0]) : null;
+		return result.rows[0] ? userDto(result.rows[0]) : null;
 	}
 
 	async updateUserProfileImage(userId, filePath) {
 		const query = 'UPDATE users SET profile_image = $1 WHERE id = $2 RETURNING *';
 		const result = await this.db.query(query, [filePath, userId]);
-		return result.rows[0] ? this.userDto(result.rows[0]) : null;
+		return result.rows[0] ? userDto(result.rows[0]) : null;
 	}
 
 	toSnakeCase(str) {
 		return str.replace(/[A-Z]/g, (letter) => {
 			return `_${letter.toLowerCase()}`;
-		});
-	}
-
-	userDto(userData) {
-		return new User({
-			id: userData.id,
-			firstName: userData.first_name,
-			lastName: userData.last_name,
-			username: userData.username,
-			phoneNumber: userData.phone_number,
-			email: userData.email,
-			password: userData.password,
-			createdAt: userData.created_at,
-			role: userData.role,
-			profileImage: userData.profile_image,
 		});
 	}
 }

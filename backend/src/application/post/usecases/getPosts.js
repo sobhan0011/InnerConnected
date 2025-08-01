@@ -1,17 +1,24 @@
-import UserRoles from '../../../domain/user/userRoles.js';
 import { PostResponseDto } from '../dtos/postResponseDto.js';
+import { PostWithUserResponseDto } from '../dtos/postWithUserResponseDto.js';
 
 class GetPosts {
 	constructor(postRepository) {
 		this.postRepository = postRepository;
 	}
 
-	async execute(filters, requester) {
-		if (!requester || requester.role !== UserRoles.ADMIN) filters.approved = true;
-		const posts = await this.postRepository.getPosts(filters);
-		if (!posts) return [];
-		return posts.map((post) => {
-			return new PostResponseDto(post);
+	async execute(filters) {
+		const { includeUser } = filters;
+		delete filters.includeUser;
+
+		const postsData = includeUser
+			? await this.postRepository.getPostsWithUser(filters)
+			: await this.postRepository.getPosts(filters);
+
+		if (!postsData) return [];
+
+		const PostDto = includeUser ? PostWithUserResponseDto : PostResponseDto;
+		return postsData.map((post) => {
+			return new PostDto(post);
 		});
 	}
 }
