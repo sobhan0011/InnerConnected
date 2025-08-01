@@ -12,12 +12,11 @@ const authStore = useAuthStore();
 
 async function onLogin(loginData: { email: string; password: string }) {
   await authStore.login(loginData.email, loginData.password);
-  if (!authStore.error && authStore.token) router.push({ name: 'home' });
+  if (!authStore.error && authStore.token) router.push({ name: 'feed' });
   else alert(authStore.error);
 }
 
 function onGoToSignUp() {
-  console.log('kir');
   router.push({ name: 'signup' });
 }
 </script>
