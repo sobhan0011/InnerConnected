@@ -40,20 +40,6 @@ class PostController {
 		const result = await this.postUsecaseRegistry.updatePost.execute(postId, postData, requester);
 		res.json(result);
 	};
-
-	approvePost = async (req, res) => {
-		const postId = req.params.id;
-		const requester = req.user;
-		const result = await this.postUsecaseRegistry.approvePost.execute(postId, requester);
-		res.json(result);
-	};
-
-	rejectPost = async (req, res) => {
-		const postId = req.params.id;
-		const requester = req.user;
-		const result = await this.postUsecaseRegistry.rejectPost.execute(postId, requester);
-		res.json(result);
-	};
 }
 
 export default PostController;

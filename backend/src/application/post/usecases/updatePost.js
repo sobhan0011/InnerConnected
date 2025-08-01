@@ -20,11 +20,9 @@ class UpdatePost {
 		const requesterIsAdmin = requester.role === UserRoles.ADMIN;
 
 		if (!requesterOwnsPost && (!requesterIsAdmin || postOwnerIsAdmin)) throw new CustomError(ERROR_CODES.UNAUTHORIZED);
-		if (!requesterIsAdmin && postData.approved) throw new CustomError(ERROR_CODES.UNAUTHORIZED);
 		existingPost.content = postData.content ?? existingPost.content;
 		existingPost.userId = postData.userId ?? existingPost.userId;
 		existingPost.postId = postData.postId ?? existingPost.postId;
-		existingPost.approved = postData.approved ?? existingPost.approved;
 
 		await this.postRepository.updatePost(existingPost);
 		return new PostResponseDto(existingPost);

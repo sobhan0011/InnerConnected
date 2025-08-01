@@ -25,20 +25,6 @@ function postsRouter() {
 		authentication,
 		api('updatePost'),
 	);
-	router.patch(
-		'/posts/:id/approve',
-		validate(postIdParamSchema, 'params'),
-		authentication,
-		authorization([UserRoles.ADMIN]),
-		api('approvePost'),
-	);
-	router.patch(
-		'/posts/:id/reject',
-		validate(postIdParamSchema, 'params'),
-		authentication,
-		authorization([UserRoles.ADMIN]),
-		api('rejectPost'),
-	);
 	return router;
 }
 

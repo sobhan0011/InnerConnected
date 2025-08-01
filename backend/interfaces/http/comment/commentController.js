@@ -40,20 +40,6 @@ class CommentController {
 		const comment = await this.commentUsecaseRegistry.updateComment.execute(commentId, commentData, requester);
 		res.json(comment);
 	};
-
-	approveComment = async (req, res) => {
-		const commentId = req.params.id;
-		const requester = req.user;
-		const result = await this.commentUsecaseRegistry.approveComment.execute(commentId, requester);
-		res.json(result);
-	};
-
-	rejectComment = async (req, res) => {
-		const commentId = req.params.id;
-		const requester = req.user;
-		const result = await this.commentUsecaseRegistry.rejectComment.execute(commentId, requester);
-		res.json(result);
-	};
 }
 
 export default CommentController;

@@ -25,20 +25,6 @@ function commentsRouter() {
 		authentication,
 		api('updateComment'),
 	);
-	router.patch(
-		'/comments/:id/approve',
-		validate(commentIdParamSchema, 'params'),
-		authentication,
-		authorization([UserRoles.ADMIN]),
-		api('approveComment'),
-	);
-	router.patch(
-		'/comments/:id/reject',
-		validate(commentIdParamSchema, 'params'),
-		authentication,
-		authorization([UserRoles.ADMIN]),
-		api('rejectComment'),
-	);
 	return router;
 }
 

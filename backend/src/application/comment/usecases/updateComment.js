@@ -20,11 +20,9 @@ class UpdateComment {
 		const requesterIsAdmin = requester.role === UserRoles.ADMIN;
 
 		if (!requesterOwnsComment && (!requesterIsAdmin || commentOwnerIsAdmin)) throw new CustomError(ERROR_CODES.UNAUTHORIZED);
-		if (!requesterIsAdmin && commentData.approved) throw new CustomError(ERROR_CODES.UNAUTHORIZED);
 		existingComment.content = commentData.content ?? existingComment.content;
 		existingComment.userId = commentData.userId ?? existingComment.userId;
 		existingComment.postId = commentData.postId ?? existingComment.postId;
-		existingComment.approved = commentData.approved ?? existingComment.approved;
 
 		await this.commentRepository.updateComment(existingComment);
 		return new CommentResponseDto(existingComment);

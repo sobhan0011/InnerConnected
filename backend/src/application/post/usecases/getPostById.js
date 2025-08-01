@@ -18,7 +18,7 @@ class GetPostById {
 		if (!post) throw new CustomError(ERROR_CODES.POST_NOT_FOUND);
 		const requesterIsAdmin = requester.role === UserRoles.ADMIN;
 		const requesterOwnsPost = post.userId === requester.id;
-		if (!requesterIsAdmin && !requesterOwnsPost && !post.approved) throw new CustomError(ERROR_CODES.UNAUTHORIZED);
+		if (!requesterIsAdmin && !requesterOwnsPost) throw new CustomError(ERROR_CODES.UNAUTHORIZED);
 	}
 }
 

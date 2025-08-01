@@ -3,6 +3,7 @@ import { validateCreatePostFields } from '../validators/postCreateValidator.js';
 import { PostResponseDto } from '../dtos/postResponseDto.js';
 import { CustomError } from '../../../../errors/customError.js';
 import { ERROR_CODES } from '../../../../errors/erros.js';
+import UserRoles from '../../../domain/user/userRoles.js';
 
 class AddPost {
 	constructor(postRepository, userRepository) {
@@ -19,9 +20,6 @@ class AddPost {
 		const postOwnerIsAdmin = postOwner.role === UserRoles.ADMIN;
 		const requesterIsAdmin = requester.role === UserRoles.ADMIN;
 		if (!requesterOwnsPost && (postOwnerIsAdmin || !requesterIsAdmin)) {
-			throw new CustomError(ERROR_CODES.UNAUTHORIZED);
-		}
-		if (!requesterIsAdmin && postData.approved) {
 			throw new CustomError(ERROR_CODES.UNAUTHORIZED);
 		}
 
