@@ -1,5 +1,5 @@
 import { CustomError } from '../../../../errors/customError.js';
-import { ERROR_CODES } from '../../../../errors/erros.js';
+import { ERROR_CODES } from '../../../../errors/errors.js';
 
 class DeletePost {
 	constructor(postRepository, userRepository) {
@@ -22,7 +22,7 @@ class DeletePost {
 
 		const requesterOwnsPost = postData.userId === requester.id;
 		const postOwnerIsAdmin = postOwner.role === UserRoles.ADMIN;
-		const requesterIsAdmin = requester.role ===  UserRoles.ADMIN;
+		const requesterIsAdmin = requester.role === UserRoles.ADMIN;
 
 		if (!requesterOwnsPost && (!requesterIsAdmin || postOwnerIsAdmin)) throw new CustomError(ERROR_CODES.UNAUTHORIZED);
 	}

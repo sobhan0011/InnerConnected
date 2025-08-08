@@ -1,5 +1,5 @@
 import { CustomError } from '../../../../errors/customError.js';
-import { ERROR_CODES } from '../../../../errors/erros.js';
+import { ERROR_CODES } from '../../../../errors/errors.js';
 import { validateUpdatePostFields } from '../validators/postUpdateValidator.js';
 import { PostResponseDto } from '../dtos/postResponseDto.js';
 

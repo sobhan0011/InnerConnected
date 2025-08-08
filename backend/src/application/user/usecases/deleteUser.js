@@ -1,6 +1,6 @@
 import UserRoles from '../../../domain/user/userRoles.js';
 import { CustomError } from '../../../../errors/customError.js';
-import { ERROR_CODES } from '../../../../errors/erros.js';
+import { ERROR_CODES } from '../../../../errors/errors.js';
 
 class DeleteUser {
 	constructor(userRepository) {

@@ -1,6 +1,6 @@
 import serverConfig from '../../../../configs/serverConfig.js';
 import { CustomError } from '../../../../errors/customError.js';
-import { ERROR_CODES } from '../../../../errors/erros.js';
+import { ERROR_CODES } from '../../../../errors/errors.js';
 import { validateUserLoginFields } from '../validators/userLoginValidator.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';

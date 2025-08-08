@@ -1,5 +1,5 @@
 import { CustomError } from '../../../../errors/customError.js';
-import { ERROR_CODES } from '../../../../errors/erros.js';
+import { ERROR_CODES } from '../../../../errors/errors.js';
 
 export function validateUpdatePostFields({ content, userId }) {
 	if (content && content.trim().length < 10) {

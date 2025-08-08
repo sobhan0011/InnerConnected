@@ -2,7 +2,7 @@ import Comment from '../../../domain/comment/comment.js';
 import { CommentResponseDto } from '../dtos/commentResponseDto.js';
 import { validateCreateCommentFields } from '../validators/commentCreateValidator.js';
 import { CustomError } from '../../../../errors/customError.js';
-import { ERROR_CODES } from '../../../../errors/erros.js';
+import { ERROR_CODES } from '../../../../errors/errors.js';
 import UserRoles from '../../../domain/user/userRoles.js';
 
 class AddComment {

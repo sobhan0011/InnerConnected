@@ -89,4 +89,10 @@ export const ERROR_CODES = {
 		en_message: 'You do not have permission to update this feild.',
 		status: 403,
 	},
+	CHAT_NOT_FOUND: {
+		code: 'CHAT_NOT_FOUND',
+		fa_message: 'چت پیدا نشد',
+		en_message: 'Chat not found',
+		status: 404,
+	},
 };

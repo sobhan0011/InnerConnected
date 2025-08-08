@@ -1,5 +1,5 @@
 import { CustomError } from '../../../../errors/customError.js';
-import { ERROR_CODES } from '../../../../errors/erros.js';
+import { ERROR_CODES } from '../../../../errors/errors.js';
 import User from '../../../domain/user/user.js';
 import UserRoles from '../../../domain/user/userRoles.js';
 import { UserResponseDto } from '../dtos/userResponseDto.js';

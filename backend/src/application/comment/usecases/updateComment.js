@@ -1,5 +1,5 @@
 import { CustomError } from '../../../../errors/customError.js';
-import { ERROR_CODES } from '../../../../errors/erros.js';
+import { ERROR_CODES } from '../../../../errors/errors.js';
 import { validateUpdateCommentFields } from '../validators/commentUpdateValidator.js';
 import { CommentResponseDto } from '../dtos/commentResponseDto.js';
 
