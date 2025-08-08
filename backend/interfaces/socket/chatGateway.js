@@ -9,7 +9,7 @@ function createChatGateway(io, { chatUsecaseRegistry }) {
 			try {
 				const chat = await chatUsecaseRegistry.startChat.execute(userId, toUserId);
 				socket.join(chat.id);
-				cb({ chatId: chat.id });
+				cb({ chatId: chat.id, createdAt: chat.createdAt });
 			} catch (err) {
 				console.error('startChat error:', err);
 				cb({ error: 'Failed to start chat' });
