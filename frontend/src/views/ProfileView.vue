@@ -3,67 +3,6 @@ import { useUserStore } from '@/stores/user';
 import { ref, onMounted } from 'vue';
 
 const userStore = useUserStore();
-
-const file = ref<File | null>(null);
-const uploading = ref(false);
-
-async function uploadProfilePost() {
-  if (!file.value) return;
-  uploading.value = true;
-
-  const formData = new FormData();
-  formData.append('profileImage', file.value);
-
-  await userStore.uploadProfile(formData);
-  uploading.value = false;
-}
-
-function onFileChange(event: Event) {
-  const target = event.target as HTMLInputElement;
-  const selectedFile = target.files?.[0] || null;
-  file.value = selectedFile;
-}
-
-onMounted(async () => {
-  await userStore.getUserData();
-});
-</script>
-
-<script setup lang="ts">
-import { useUserStore } from '@/stores/user';
-import { ref, onMounted } from 'vue';
-
-const userStore = useUserStore();
-const file = ref<File | null>(null);
-const uploading = ref(false);
-
-async function uploadProfilePost() {
-  if (!file.value) return;
-  uploading.value = true;
-
-  const formData = new FormData();
-  formData.append('profileImage', file.value);
-
-  await userStore.uploadProfile(formData);
-  uploading.value = false;
-}
-
-function onFileChange(event: Event) {
-  const target = event.target as HTMLInputElement;
-  const selectedFile = target.files?.[0] || null;
-  file.value = selectedFile;
-}
-
-onMounted(async () => {
-  await userStore.getUserData();
-});
-</script>
-
-<script setup lang="ts">
-import { useUserStore } from '@/stores/user';
-import { ref, onMounted } from 'vue';
-
-const userStore = useUserStore();
 const file = ref<File | null>(null);
 const uploading = ref(false);
 
