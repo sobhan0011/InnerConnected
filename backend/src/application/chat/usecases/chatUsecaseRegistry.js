@@ -1,10 +1,12 @@
-import SendMessage from './sendMessage.js';
+import { GetChatMessages } from './getChatMessages.js';
+import SaveMessage from './saveMessage.js';
 import StartChat from './startChat.js';
 
 class ChatUsecaseRegistry {
-	constructor({ chatRepository }) {
+	constructor({ chatRepository, messageRepository }) {
 		this.startChat = new StartChat(chatRepository);
-		this.sendMessage = new SendMessage(chatRepository);
+		this.saveMessage = new SaveMessage(messageRepository);
+		this.getChatMessages = new GetChatMessages(chatRepository, messageRepository);
 	}
 }
 
