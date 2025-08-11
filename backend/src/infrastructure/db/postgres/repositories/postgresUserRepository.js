@@ -11,8 +11,8 @@ class postgresUserRepository {
 		let i = 1;
 
 		if (filter.username) {
-			conditions.push(`username = $${i++}`);
-			values.push(filter.username);
+			conditions.push(`username ILIKE $${i++}`);
+			values.push(`%${filter.username}%`);
 		}
 
 		if (filter.email) {
