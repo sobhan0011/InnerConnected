@@ -17,7 +17,7 @@ export async function fetchPostsWithUsers(): Promise<PostWithUser[] | undefined>
       }
       return postUserData;
     });
-    
+
     return updatedData;
   } catch (err: unknown) {
     if (err instanceof Error) {

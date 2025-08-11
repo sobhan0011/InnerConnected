@@ -2,7 +2,6 @@ import axios, { AxiosError } from 'axios';
 import { expressBlogConfig } from '../../configs/expressBlogConfig';
 import { ERRORS } from '../../common/errors/erros';
 import { CustomError } from '../../common/errors/customError';
-import defaultAvatar from '@/assets/default-avatar.png';
 import type { Chat } from '@/types/chat/chat';
 
 const baseUrl = `${expressBlogConfig.expressBlogHost}:${expressBlogConfig.expressBlogPort}`;
@@ -37,8 +36,6 @@ export async function fetchUserChats(token: string) {
     const updatedData = data.map((chatData: Chat) => {
       if (chatData.user.profileImage) {
         chatData.user.profileImage = `${baseUrl}${chatData.user.profileImage}`;
-      } else {
-        chatData.user.profileImage = defaultAvatar;
       }
       return chatData;
     });

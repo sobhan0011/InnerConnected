@@ -1,23 +1,3 @@
-<script setup lang="ts">
-import { useRouter } from 'vue-router';
-import { useUserStore } from '@/stores/user';
-
-const router = useRouter();
-const userStore = useUserStore();
-
-function goToProfile() {
-  router.push('/profile');
-}
-
-function goToFeed() {
-  router.push('/feed');
-}
-
-function goToChat() {
-  router.push('/chat');
-}
-</script>
-
 <template>
   <header class="w-full bg-white shadow-sm px-4 py-3 flex justify-between items-center">
     <div class="flex items-center">
@@ -46,7 +26,7 @@ function goToChat() {
       v-if="userStore.user"
     >
       <img
-        :src="userStore.user.profileImage"
+        :src="userStore.user.profileImage || defaultAvatar"
         alt="avatar"
         class="w-8 h-8 rounded-full object-cover border border-gray-300 transition group-hover:scale-105"
       />
@@ -56,3 +36,29 @@ function goToChat() {
     </div>
   </header>
 </template>
+
+<script setup lang="ts">
+// Vue
+import { useRouter } from 'vue-router';
+
+// Stores
+import { useUserStore } from '@/stores/user';
+
+// Assets
+import defaultAvatar from '@/assets/default-avatar.png';
+
+const router = useRouter();
+const userStore = useUserStore();
+
+function goToProfile() {
+  router.push('/profile');
+}
+
+function goToFeed() {
+  router.push('/feed');
+}
+
+function goToChat() {
+  router.push('/chat');
+}
+</script>
