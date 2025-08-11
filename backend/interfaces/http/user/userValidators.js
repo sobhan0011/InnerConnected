@@ -14,9 +14,9 @@ const phoneNumber = Joi.string().pattern(phoneRegex).messages({
 	'string.pattern.base': 'Phone number must be 10–15 digits.',
 });
 
-const username = Joi.string().alphanum().min(3).max(30).messages({
+const username = Joi.string().alphanum().min(1).max(30).messages({
 	'string.alphanum': 'Username must only contain letters and numbers.',
-	'string.min': 'Username must be at least 3 characters long.',
+	'string.min': 'Username must be at least 1 characters long.',
 	'string.max': 'Username must not exceed 30 characters.',
 });
 
