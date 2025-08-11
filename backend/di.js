@@ -9,6 +9,7 @@ import UserController from './interfaces/http/user/userController.js';
 import PostController from './interfaces/http/post/postController.js';
 import CommentController from './interfaces/http/comment/commentController.js';
 import AuthController from './interfaces/http/auth/authController.js';
+import ChatController from './interfaces/http/chat/chatController.js';
 
 // UsecaseRegistries
 import UserUsecaseRegistry from './src/application/user/usecases/userUsecaseRegistry.js';
@@ -24,6 +25,7 @@ import postgresUserRepository from './src/infrastructure/db/postgres/repositorie
 import postgresPostRepository from './src/infrastructure/db/postgres/repositories/postgresPostRepository.js';
 import postgresCommentRepository from './src/infrastructure/db/postgres/repositories/postgresCommentRepository.js';
 import postgresChatRepository from './src/infrastructure/db/postgres/repositories/postgresChatRepository.js';
+import postgresMessageRepository from './src/infrastructure/db/postgres/repositories/postgresMessageRepository.js';
 
 const container = createContainer();
 
@@ -49,6 +51,7 @@ container.register({
 	userController: asClass(UserController).scoped(),
 	postController: asClass(PostController).scoped(),
 	commentController: asClass(CommentController).scoped(),
+	chatController: asClass(ChatController).scoped(),
 });
 
 // UsecaseRegistries
@@ -65,6 +68,7 @@ container.register({
 	postRepository: asClass(postgresPostRepository).scoped(),
 	commentRepository: asClass(postgresCommentRepository).scoped(),
 	chatRepository: asClass(postgresChatRepository).scoped(),
+	messageRepository: asClass(postgresMessageRepository).scoped(),
 });
 
 export default container;
