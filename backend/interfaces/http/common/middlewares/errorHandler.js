@@ -1,4 +1,5 @@
 export default (err, req, res, next) => {
+	console.log(err);
 	const statusCode = err.status || 500;
 	res.status(statusCode).json({
 		code: err.code || 'INTERNAL_SERVER_ERROR',

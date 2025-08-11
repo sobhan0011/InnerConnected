@@ -1,5 +1,3 @@
-import { CustomError } from '../../../../errors/customError.js';
-import { ERROR_CODES } from '../../../../errors/errors.js';
 import { UserResponseDto } from '../dtos/userResponseDto.js';
 import { UserLimitedResponseDto } from '../dtos/userLimitedResponseDto.js';
 import UserRoles from '../../../domain/user/userRoles.js';

@@ -18,7 +18,7 @@ function createChatGateway(io, { chatUsecaseRegistry }) {
 
 		socket.on('sendMessage', async ({ chatId, text }) => {
 			try {
-				const message = await chatUsecaseRegistry.sendMessage.execute(chatId, userId, text);
+				const message = await chatUsecaseRegistry.saveMessage.execute(chatId, userId, text);
 				io.to(chatId).emit('receiveMessage', message);
 			} catch (err) {
 				console.error('sendMessage error:', err);
