@@ -1,39 +1,8 @@
-<script setup lang="ts">
-import { ChatBubbleLeftRightIcon } from '@heroicons/vue/24/outline';
-import type { PostWithUser } from '@/types/postWithUser';
-
-defineProps<{
-  postWithUser: PostWithUser;
-}>();
-
-function getRelativeTime(date: string | number | Date): string {
-  const now = new Date();
-  const posted = new Date(date);
-  const diffMs = now.getTime() - posted.getTime();
-  const seconds = Math.floor(diffMs / 1000);
-  const minutes = Math.floor(diffMs / 60000);
-  const hours = Math.floor(diffMs / 3600000);
-  const days = Math.floor(diffMs / 86400000);
-
-  if (seconds < 60) return 'just now';
-  if (minutes < 60) return `${minutes} minute${minutes !== 1 ? 's' : ''} ago`;
-  if (hours < 24) return `${hours} hour${hours !== 1 ? 's' : ''} ago`;
-  if (days === 1) return 'yesterday';
-  if (days < 7) return `${days} days ago`;
-
-  return posted.toLocaleDateString(undefined, {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  });
-}
-</script>
-
 <template>
   <div class="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm w-full">
     <div class="flex items-start gap-4 mb-3">
       <img
-        :src="postWithUser.profileImage"
+        :src="postWithUser.profileImage || defaultAvatar"
         alt="User avatar"
         class="w-12 h-12 rounded-full object-cover"
       />
@@ -63,3 +32,35 @@ function getRelativeTime(date: string | number | Date): string {
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import { ChatBubbleLeftRightIcon } from '@heroicons/vue/24/outline';
+import type { PostWithUser } from '@/types/postWithUser';
+import defaultAvatar from '@/assets/default-avatar.png';
+
+defineProps<{
+  postWithUser: PostWithUser;
+}>();
+
+function getRelativeTime(date: string | number | Date): string {
+  const now = new Date();
+  const posted = new Date(date);
+  const diffMs = now.getTime() - posted.getTime();
+  const seconds = Math.floor(diffMs / 1000);
+  const minutes = Math.floor(diffMs / 60000);
+  const hours = Math.floor(diffMs / 3600000);
+  const days = Math.floor(diffMs / 86400000);
+
+  if (seconds < 60) return 'just now';
+  if (minutes < 60) return `${minutes} minute${minutes !== 1 ? 's' : ''} ago`;
+  if (hours < 24) return `${hours} hour${hours !== 1 ? 's' : ''} ago`;
+  if (days === 1) return 'yesterday';
+  if (days < 7) return `${days} days ago`;
+
+  return posted.toLocaleDateString(undefined, {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  });
+}
+</script>
