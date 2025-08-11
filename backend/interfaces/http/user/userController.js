@@ -48,6 +48,13 @@ class UserController {
 		const result = await this.userUsecaseRegistry.uploadProfileImage.execute(userId, filePath);
 		res.json(result);
 	};
+
+	getUserChats = async (req, res) => {
+		const userId = req.params.id || req.user.id;
+		const requester = req.user;
+		const user = await this.userUsecaseRegistry.getUserChats.execute(userId, requester);
+		res.json(user);
+	};
 }
 
 export default UserController;

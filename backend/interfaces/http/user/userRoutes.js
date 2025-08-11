@@ -25,13 +25,9 @@ function usersRouter() {
 	router.delete('/users/me', authentication, api('deleteUser'));
 	router.post('/users/me/upload-image', authentication, upload, api('uploadProfileImage'));
 
-	router.get(
-		'/users/',
-		validate(getUsersFilterSchema, 'query'),
-		authentication,
-		authorization([UserRoles.ADMIN]),
-		api('getUsers'),
-	);
+	router.get('/users/', validate(getUsersFilterSchema, 'query'), authentication, api('getUsers'));
+
+	router.get('/users/chats', authentication, api('getUserChats'));
 
 	router.get(
 		'/users/:id',
