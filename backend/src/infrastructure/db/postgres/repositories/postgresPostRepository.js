@@ -60,6 +60,8 @@ class postgresPostRepository {
 			query += ' WHERE ' + conditions.join(' AND ');
 		}
 
+		query += ' ORDER BY posts.created_date DESC';
+
 		const result = await this.db.query(query, values);
 		return result.rows.map((postWithUserData) => {
 			return postWithUserDto(postWithUserData);
