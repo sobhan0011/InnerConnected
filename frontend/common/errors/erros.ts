@@ -41,4 +41,16 @@ export const ERRORS = {
     fa_message: 'این نام کاربری قبلاً ثبت شده است',
     status: 409,
   },
+  UNAUTHORIZED: {
+    code: 'UNAUTHORIZED',
+    en_message: 'Unauthorized',
+    fa_message: 'دسترسی غیر مجاز است',
+    status: 401,
+  },
+  FAILED_TO_START_CHAT: {
+    code: 'FAILED_TO_START_CHAT',
+    en_message: 'Failed to start chat',
+    fa_message: 'آغاز چت با شکست مواجه شد',
+    status: 500,
+  },
 };
