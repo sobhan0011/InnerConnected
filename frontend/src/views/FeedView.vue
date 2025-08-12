@@ -1,6 +1,6 @@
 <template>
   <div class="h-screen flex flex-col overflow-hidden bg-gray-50">
-    <div class="flex-1 overflow-y-auto px-4 pt-2">
+    <div class="flex-1 overflow-y-auto px-4 pt-2 pb-20">
       <PostList />
     </div>
 
