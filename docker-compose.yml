@@ -1,12 +1,17 @@
 services:
+  migrate:
+    build: ./backend
+    command: npx node-pg-migrate up -m src/infrastructure/db/postgres/migrations
+    depends_on:
+      - postgres
+
   backend:
     build: ./backend
     container_name: backend
     ports:
       - "3000:3000"
     depends_on:
-      - postgres
-      - pgadmin
+      - migrate
 
   frontend:
     build: ./frontend
